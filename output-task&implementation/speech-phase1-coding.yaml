@@ -27,6 +27,3 @@ implementation:
 review_flags:
   - "sample-prompts.md 和 voice-directions.md 含可复制模板，介于指导型 description 与结构化 reference 之间"
   - "agents/openai.yaml（界面元数据 ~7 行）未计入比例"
-
-coder_id: "ai_coder"
-coding_date: "2026-03-19"

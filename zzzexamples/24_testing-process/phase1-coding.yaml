@@ -1,0 +1,35 @@
+# ===== Open Coding Record =====
+skill_id: "24_testing-process"
+skill_source: "zzzexamples/24_testing-process"
+
+task_codes:
+  - code: "制定并执行端到端测试策略（多测试类型）"
+    evidence: |
+      description (FR): strategy, unit/integration/e2e, performance, security, accessibility, CI/CD.
+    domain_hint: "software-testing"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "长文 + orchestrator 引用"
+      approx_weight: "约 320+ 行"
+      role: "总入口与协调说明"
+    - part: "agents/ 下大量 md"
+      nature: "分专题（strategy/quality/security/performance/...）"
+      approx_weight: "27 md，主体之一"
+      role: "子流程与检查清单"
+    - part: "shell 脚本"
+      nature: "1 sh"
+      approx_weight: "小"
+      role: "辅助"
+  desc_code_relationship: |
+    模块化目录即「内容路由」；SKILL 指向各 agent 文档；几乎无中心代码。
+  instruction_source: |
+    按测试类型进入 agents/ 子目录；orchestrator 协调。
+  overall_impression: "巨型参考库 + 薄 SKILL 的测试方法论 Skill。"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

@@ -1,0 +1,24 @@
+skill_id: "07_idea-direction-generator"
+skill_source: "zzzexamples/07_idea-direction-generator"
+
+task_code: "从 signal table 生成研究方向池并输出markdown"
+domain_hint: "research-ideation / pipeline-tooling"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "约 30 行：目标、偏好、触发条件、CLI 入口与参数说明（纯自然语言 + 命令行示例文本）"
+      approx_weight: "~37%"
+      role: "定义何时运行、输入输出路径与 guardrail（不凭空编造论文）"
+    - part: "scripts/run.py"
+      nature: "约 54 行可执行入口：解析参数、定位仓库根、导入 `tooling.ideation` 并写出 JSONL/Markdown"
+      approx_weight: "~63%"
+      role: "唯一实际执行逻辑；依赖仓库内 `tooling/` 与 workspace 契约，非自包含单文件算法"
+  desc_code_relationship: |
+    SKILL.md 仅给出「如何调用 Python 入口」与契约前提；`run.py` 负责调用仓库内既有 ideation 库完成生成。
+    若脱离 monorepo 的 `tooling` 与 pipeline 元数据，脚本无法单独体现完整能力。
+  implementation_mode: "Code 主导 + Description 轻量调用"
+
+review_flags:
+  - "逻辑依赖仓库内 `tooling.common` / `tooling.ideation`，单独拷贝本 skill 目录不足以运行"
+  - "无 references/ 子目录"

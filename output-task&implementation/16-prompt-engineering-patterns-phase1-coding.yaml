@@ -1,0 +1,35 @@
+skill_id: "16_prompt-engineering-patterns"
+skill_source: "zzzexamples/16_prompt-engineering-patterns"
+
+task_code: "设计、优化并评估面向生产环境的 Prompt 工程方案"
+domain_hint: "prompt-engineering / llm-optimization"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "自然语言总览：适用/不适用场景、5 类核心能力概述、Quick Start（内联 Python）、关键模式（渐进式披露、指令层次、错误恢复）、最佳实践 7 条、集成模式（RAG/验证，内联 Python）、性能指标 6 项、资源导航"
+      approx_weight: "~8%"
+      role: "总入口与导航页；为 Agent 提供全局框架后把深度阅读导向 references/ 和 assets/"
+    - part: "scripts/optimize-prompt.py"
+      nature: "Python 工具（280 行）：TestCase 数据结构、PromptOptimizer 类（并行评测、accuracy/latency/token 指标、迭代优化、变体生成、A/B 对比、JSON 导出）；main() 用 MockLLMClient 演示"
+      approx_weight: "~10%"
+      role: "提供可执行的 prompt 评估与优化框架；非 stub，具备真实逻辑，但需接入外部 llm_client 才能用于生产"
+    - part: "references/"
+      nature: "5 份长篇知识型 Markdown（few-shot-learning 370 行 / chain-of-thought 400 行 / prompt-optimization 415 行 / prompt-templates 471 行 / system-prompts 190 行），每份含方法论说明 + 大量示教型 Python 代码（选择器、模板引擎、CoT/ToT 推理框架、A/B 测试、版本管理等）"
+      approx_weight: "~69%"
+      role: "这个 skill 的真正知识主体——Agent 的 prompt 设计、推理链、模板系统、评估方法均来源于此；代码为示教性质，非独立可执行脚本"
+    - part: "assets/"
+      nature: "prompt-template-library.md（247 行）：分类/抽取/生成/转换/分析/QA/专用 共 15+ 现成模板；few-shot-examples.json（107 行）：8 类结构化示例数据集（情感/实体/代码/分类/转换/QA/摘要/SQL）"
+      approx_weight: "~13%"
+      role: "可直接复用的参考素材——模板选取与 few-shot 示例构造的即用库"
+  desc_code_relationship: |
+    SKILL.md 在 Resources 节明确列出了全部 5 个 references、2 个 assets 和 optimize-prompt.py 的路径。
+    但 SKILL.md 对脚本的定位是"可选自动化工具"而非必经执行路径——Agent 完全可以只读 references/ 就掌握 prompt engineering 方法论。
+    references/ 中包含大量 Python 代码块，但这些代码是"教你怎么做"的示教材料（类定义、函数模板），不是 Agent 直接调用的可执行文件。
+    optimize-prompt.py 是唯一真正可执行的脚本，但它依赖外部 llm_client 和 numpy，且 main() 仅用 MockLLMClient 演示。
+  implementation_mode: "Description/Reference 主导 + Code 辅助优化"
+
+review_flags:
+  - "SKILL.md 第 23 行引用 `resources/implementation-playbook.md`，该文件在 skill 目录中不存在"
+  - "references/ 中大量 Python 代码块属于示教性质（非独立可执行），是否应计入 code 比例存在判断空间"
+  - "optimize-prompt.py 依赖外部 llm_client 与 numpy，接入方式未在 SKILL.md 中说明"

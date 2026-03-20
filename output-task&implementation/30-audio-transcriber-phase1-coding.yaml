@@ -1,0 +1,30 @@
+skill_id: "30_audio-transcriber"
+skill_source: "zzzexamples/30_audio-transcriber"
+
+task_code: "将音频转写为文本并生成 Markdown 报告/会议纪要"
+domain_hint: "audio-processing / transcription"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "超大篇幅操作说明：工具发现、依赖安装、文件校验、元数据提取、Markdown 输出、LLM 后处理、批处理场景与示例；包含大量 bash/python 命令会被 Agent 原样执行"
+      approx_weight: "~45%"
+      role: "定义整套转写工作流、交互决策点与输出模板，是 Agent 执行该 skill 的主要流程蓝图"
+    - part: "scripts/ + examples/ + 可执行命令块"
+      nature: "`transcribe.py`（真实转写/LLM 工作流脚本）+ `install-requirements.sh` + `examples/basic-transcription.sh` + SKILL.md 中的大量可执行命令"
+      approx_weight: "~35%"
+      role: "承担依赖安装、Whisper/Faster-Whisper 调用、CLI/Prompt 工程集成、结果输出与示例执行"
+    - part: "README.md + references/"
+      nature: "README 使用说明、工具对比、安装建议与多引擎比较；含不少示教型代码片段"
+      approx_weight: "~20%"
+      role: "补充安装与选型知识，帮助 Agent 在不同引擎与环境之间做判断"
+  desc_code_relationship: |
+    该 skill 同时依赖详细流程说明和真实脚本实现。
+    Description 层规定何时转写、如何发现依赖、何时提示用户确认、何时进入 LLM 纪要生成；Code 层真正完成转写、安装和结果文件输出；README/reference 则补足引擎选择知识。
+    因此不是单纯脚本工具，而是“操作流程 + 执行脚本”紧密耦合的复合型技能。
+  implementation_mode: "Description 主导 + Code 执行"
+
+review_flags:
+  - "README.md 中的示教型安装/示例代码按 reference 处理"
+  - "`transcribe.py` 内含自动安装依赖与 prompt-engineer/CLI 检测逻辑，脚本职责较重"
+  - "CHANGELOG.md 未计入三类比例"

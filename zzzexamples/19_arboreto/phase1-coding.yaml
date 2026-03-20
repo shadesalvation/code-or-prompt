@@ -1,0 +1,33 @@
+# ===== Open Coding Record =====
+skill_id: "19_arboreto"
+skill_source: "zzzexamples/19_arboreto"
+
+task_codes:
+  - code: "从表达数据推断基因调控网络（GRN）"
+    evidence: |
+      description: GRNBoost2, GENIE3, bulk/scRNA-seq, TF-target relationships, distributed computation.
+    domain_hint: "bioinformatics-grn"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "概述与使用说明"
+      approx_weight: "约 230+ 行"
+      role: "分析流程与参数"
+    - part: "scripts/（1 py）"
+      nature: "封装或调用 Arboreto"
+      approx_weight: "核心执行"
+      role: "跑推断管线"
+    - part: "references/"
+      nature: "算法与基础推断文档"
+      approx_weight: "若干"
+      role: "理论与参数细节"
+  desc_code_relationship: |
+    生物学计算逻辑在脚本与依赖库；SKILL 教如何调用与解释。
+  overall_impression: "科学计算型：脚本 + 方法论文档。"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

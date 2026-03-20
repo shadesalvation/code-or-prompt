@@ -1,0 +1,36 @@
+# ===== Open Coding Record =====
+skill_id: "11_skill-blast-radius-simulator"
+skill_source: "zzzexamples/11_skill-blast-radius-simulator"
+
+task_codes:
+  - code: "在安装/启用技能前评估影响半径与风险并生成报告"
+    evidence: |
+      description: pre-install/pre-enable impact simulation; acknowledgement when risk exceeds thresholds.
+    domain_hint: "skill-risk-governance"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "工作流 + bash 调用示例"
+      approx_weight: "约 50+ 行"
+      role: "入口与 CLI 用法"
+    - part: "scripts/blast_radius_sim.py"
+      nature: "Python"
+      approx_weight: "核心"
+      role: "静态模拟与 JSON/表格输出"
+    - part: "references/"
+      nature: "simulation-workflow, risk-heuristics"
+      approx_weight: "2 md"
+      role: "规则与流程说明"
+  desc_code_relationship: |
+    SKILL 给出命令与阈值；模拟计算在脚本中。
+  instruction_source: |
+    Workflow 步骤 + CLI 示例；references 补充启发式。
+  overall_impression: "脚本执行 + 短流程说明的治理类 Skill。"
+  evidence: "python3 ... blast_radius_sim.py"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

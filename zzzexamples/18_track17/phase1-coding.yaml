@@ -1,0 +1,35 @@
+# ===== Open Coding Record =====
+skill_id: "18_track17"
+skill_source: "zzzexamples/18_track17"
+
+task_codes:
+  - code: "在本地维护包裹列表并同步 17TRACK 物流状态"
+    evidence: |
+      description: Track parcels via 17TRACK API; SQLite; polling + webhook.
+    domain_hint: "parcel-tracking"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "命令大全：init/add/list/sync/status/webhook"
+      approx_weight: "约 120+ 行"
+      role: "CLI 使用手册"
+    - part: "scripts/track17.py"
+      nature: "Python CLI"
+      approx_weight: "核心"
+      role: "SQLite 存储与 API 调用"
+    - part: "额外 md"
+      nature: "README 类"
+      approx_weight: "少量"
+      role: "补充说明"
+  desc_code_relationship: |
+    SKILL 几乎逐条对应子命令；业务逻辑集中在单脚本。
+  instruction_source: |
+    Quick start 与 Common actions 章节；环境变量在 Requirements 中。
+  overall_impression: "单 Python CLI + 长说明的运维工具 Skill。"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

@@ -1,0 +1,34 @@
+skill_id: "10_wecom-automation"
+skill_source: "zzzexamples/10_wecom-automation"
+
+task_code: "部署并运行企业微信个人账号自动化助手（消息问答、好友管理、人工介入）"
+domain_hint: "im-automation / chatbot"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "混合体：部署指南（方案选择、6 步安装流程、环境配置）+ 场景说明 + 大量内联代码示例（JS/Bash/Python/SQL ~350 行）+ 架构图、成本表、故障排查"
+      approx_weight: "~34%"
+      role: "为 Agent 提供部署/运维/排障指导；内联代码多为展示性示例，与实际 .js 文件高度重叠"
+    - part: "Code（bot.js + workflows/ + install.sh + 配置）"
+      nature: "Node.js 机器人主入口（bot.js 248 行）、事件处理（on_event.js 190 行）、消息路由（handle_message.js 223 行）、一键安装（install.sh 253 行）、PM2/package.json/requirements.txt/.env.example"
+      approx_weight: "~56%"
+      role: "完整可独立运行的自动化系统——Wechaty 连接企业微信、消息分发、知识库问答、文件/图片/语音处理、人工介入通知；install.sh 负责一键部署"
+    - part: "knowledge/"
+      nature: "sample.md（176 行）：企业客服问答知识库（退款政策、物流、订单、产品保修等结构化 Q&A）"
+      approx_weight: "~10%"
+      role: "向量知识库的源数据，由 import_kb.py 导入后供运行时语义检索"
+  desc_code_relationship: |
+    SKILL.md 是部署与运维手册，不参与运行时逻辑。实际自动化能力完全由 bot.js + workflows/ 独立运行（daemon 模式，PM2 托管）。
+    SKILL.md 内含约 350 行内联代码示例，但多为场景展示，与实际 .js 文件高度重叠甚至直接复制。
+    Agent 主要通过 SKILL.md 了解"如何部署、配置、排障"，不需要实时读取 SKILL.md 来驱动消息处理。
+    去掉 SKILL.md，系统仍能正常运行；去掉 Code，SKILL.md 仅为一份说明文档。
+  implementation_mode: "Code 主导 + Description 运维辅助"
+
+review_flags:
+  - "SKILL.md 内联代码（~350 行）与实际 .js 文件存在大量重叠，比例计算中未去重"
+  - "workflows/ 中引用了多个未提供的 Python 脚本（save_user.py, notify_admin.py, answer_question.py 等），实际 skill 文件夹中不存在"
+  - "knowledge/sample.md 为纯信息型内容，归为 reference 而非 description"
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"

@@ -1,0 +1,25 @@
+skill_id: "21_lookup-bsv-address"
+skill_source: "zzzexamples/21_lookup-bsv-address"
+
+task_code: "查询 BSV 地址余额与链上基本信息"
+domain_hint: "blockchain / address-lookup"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "极简自然语言说明：适用场景、WhatsOnChain 端点、以及 `bun run .../lookup.ts` 的直接调用示例"
+      approx_weight: "~28%"
+      role: "告诉 Agent 何时用这个 skill，以及如何把用户请求映射为脚本调用"
+    - part: "scripts/ + 可执行命令块"
+      nature: "`lookup.ts`（真实可执行脚本）+ `lookup.test.ts`（校验脚本）+ SKILL.md 中可原样执行的 bun 命令"
+      approx_weight: "~72%"
+      role: "完成地址格式校验、调用 WhatsOnChain API、输出余额结果，并通过测试文件提供基本实现校验"
+  desc_code_relationship: |
+    SKILL.md 几乎没有复杂方法论，核心功能完全由 `scripts/lookup.ts` 提供。
+    Description 只承担触发条件识别与命令模板展示；Code 直接完成 API 请求和输出格式化。
+    这是一个典型的轻描述、重脚本技能。
+  implementation_mode: "Code 主导 + Description 轻量调用"
+
+review_flags:
+  - "SKILL.md 声称支持 history/utxos，但已展开核对的 `lookup.ts` 主要实现了余额查询；能力表述与脚本实现可能不完全一致"
+  - "无独立 references/ 文件夹"

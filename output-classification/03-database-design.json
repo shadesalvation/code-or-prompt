@@ -1,0 +1,82 @@
+{
+  "skill_name": "database-design",
+  "skill_source": "zzzexamples/03_database-design",
+  "task_type": ["decision-making", "design-guidance"],
+  "primary_type": "Type 3",
+  "primary_type_name": "Orchestrator",
+  "secondary_tags": ["contains_principles", "contains_guard_rules"],
+  "confidence": 0.74,
+  "is_mixed": true,
+  "dimension_assessment": {
+    "C": {
+      "value": "无可执行代码资产",
+      "judgement": "目录下存在 scripts/schema_validator.py，但 SKILL.md 中完全未提及该脚本，未要求调用或纳入任务流程。allowed-tools 也不包含脚本执行工具。按 C 维度操作化定义——仅计被 Description 明确要求调用的代码资产——该脚本不计入 C。"
+    },
+    "R": {
+      "value": "不适用",
+      "judgement": "C=无可执行代码资产，R 不参与判定。"
+    },
+    "D": {
+      "value": "正向-强",
+      "judgement": "SKILL.md 提供了内容路由框架（Selective Reading Rule + 内容地图表，根据用户需求指向对应参考文件）和 Decision Checklist（设计 schema 前必须回答的 5 个问题）。参考文件中包含多个决策树（database-selection.md、orm-selection.md）和结构化设计规则（schema-design.md、indexing.md、migrations.md）。整体构成了一个框架级指导体系。但判定存在边界模糊——SKILL.md 主体文本偏原则性（'Learn to THINK, not copy SQL patterns'），框架主要体现在参考文件中。"
+    },
+    "F": {
+      "value": "有结构化参考",
+      "judgement": "6 个参考文件中包含：决策树（database-selection.md、orm-selection.md）、对比表（数据库对比、ORM 对比、索引类型对比、关系类型对比）、结构化规则（归一化决策树、主键选择表、时间戳策略、外键 ON DELETE 选择、迁移策略流程图）。这些是 Agent 可直接查阅和参照的结构化素材。"
+    },
+    "S": {
+      "value": "自由",
+      "judgement": "Skill 未定义 Agent 的输出格式。Agent 产出的数据库设计建议、选型推荐等没有预定义的结构要求。"
+    },
+    "A": {
+      "value": "协调者",
+      "judgement": "Agent 需要理解用户上下文、判断该查阅哪些参考文件、运用决策框架给出针对性建议。决策空间很大——需要在多种数据库、ORM、索引策略中根据上下文选择。"
+    }
+  },
+  "reasoning_chain": {
+    "step_1_code_presence": {
+      "question": "是否存在可执行代码资产？",
+      "answer": "否。schema_validator.py 存在但未被 Description 引用，不计入 C。"
+    },
+    "step_2_control_mode": {
+      "question": "D 维度：Description 的控制模式？",
+      "answer": "正向-强。内容路由框架 + Decision Checklist + 参考文件中的决策树和结构化规则，整体构成框架级指导。但边界偏模糊（SKILL.md 主体偏原则性）。"
+    },
+    "step_3_reference_material": {
+      "question": "F 维度：是否有结构化参考素材？",
+      "answer": "有。6 个参考文件包含决策树、对比表和结构化设计规则。"
+    },
+    "step_4_type_selection": {
+      "selected_type": "Type 3",
+      "direct_reason": "C=无可执行代码资产 → D=正向-强 → F=有结构化参考 → Type 3 (Orchestrator)。"
+    }
+  },
+  "validation": {
+    "S_check": {
+      "desc_expected": "自由",
+      "artifact_observed": "自由",
+      "status": "match"
+    },
+    "A_check": {
+      "desc_expected": "协调者",
+      "artifact_observed": "协调者",
+      "status": "match"
+    }
+  },
+  "confidence_breakdown": {
+    "score_C": 1.0,
+    "score_D": 0.6,
+    "score_F": 0.8,
+    "formula": "0.2 × 1.0 + 0.5 × 0.6 + 0.3 × 0.8 = 0.20 + 0.30 + 0.24 = 0.74",
+    "D_score_reason": "D 取 0.6 是因为 SKILL.md 主体文本偏原则性（'Learn to THINK'、Core Principle），框架主要体现在参考文件而非 SKILL.md 自身。D=正向-强的判定有一定边界模糊性，Type 5 也是合理候选。",
+    "mixed_deduction": 0.00
+  },
+  "mixed_analysis": {
+    "is_mixed": true,
+    "reason": "SKILL.md 主体文本有明显的原则性特征（contains_principles）：'Learn to THINK, not copy SQL patterns'、'Choose database based on CONTEXT'。Anti-Patterns 段有 5 条禁令（contains_guard_rules）。这些非主类型特征占 SKILL.md 约 40%。但参考文件中的结构化决策框架是主导特征，因此主类型仍为 Type 3。"
+  },
+  "additional_notes": {
+    "orphaned_script": "scripts/schema_validator.py 存在于目录中但未被 SKILL.md 引用。该脚本用于验证 Prisma schema（检查命名规范、缺失字段、索引建议等）。如果 Description 未来将其纳入工作流，C 维度将变为'有可执行代码资产'，分类可能变为 Type 2。"
+  },
+  "final_explanation": "该 Skill 无被 Description 引用的可执行代码资产，通过内容路由框架和参考文件中的决策树、对比表为 Agent 提供数据库设计的框架级指导。SKILL.md 自身偏原则性，但结合 6 个结构化参考文件后整体达到正向-强水平，判为 Type 3。置信度 0.74 反映了 D 维度的边界模糊性。"
+}

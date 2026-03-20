@@ -1,0 +1,25 @@
+skill_id: "23_demo-page"
+skill_source: "zzzexamples/23_demo-page"
+
+task_code: "重建并发布 unityctl 的 GitHub Pages 演示页面"
+domain_hint: "docs-site / demo-publishing"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "自然语言工作流：showboat 文档重建、前置环境、`git show`/`uvx showboat`/`python3 generate-demo-html.py`/发布到 gh-pages 的整套操作说明；含大量可直接执行命令"
+      approx_weight: "~70%"
+      role: "定义 demo 录制、HTML 生成与 GitHub Pages 发布的完整人工/Agent 协作流程"
+    - part: "generate-demo-html.py + 可执行命令块"
+      nature: "单个 Python 生成器脚本 + SKILL.md 中的可执行命令块"
+      approx_weight: "~30%"
+      role: "把 `demo.md` 转成 `dist/index.html`，并复制截图/视频等静态资源用于部署"
+  desc_code_relationship: |
+    此 skill 的主要知识和操作顺序都在 SKILL.md 中：如何准备 Unity 场景、如何抽取 showboat recipe、如何发布 gh-pages。
+    `generate-demo-html.py` 只是其中一个关键工具节点，负责把已有 demo 文档转成 HTML 产物；没有 SKILL.md，Agent 不知道前置状态、录制方式和发布流程。
+    因而这是典型的 Description 主导、Code 辅助产物生成的技能。
+  implementation_mode: "Description 主导 + Code 辅助生成"
+
+review_flags:
+  - "本 skill 无独立 references/ 文件夹"
+  - "SKILL.md 中包含 `git checkout gh-pages`、`git push` 等发布命令，这些可执行命令已计入 code 比例"

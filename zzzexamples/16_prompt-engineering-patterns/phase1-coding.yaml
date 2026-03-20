@@ -1,0 +1,35 @@
+# ===== Open Coding Record =====
+skill_id: "16_prompt-engineering-patterns"
+skill_source: "zzzexamples/16_prompt-engineering-patterns"
+
+task_codes:
+  - code: "优化与设计生产级提示词与 LLM 行为"
+    evidence: |
+      description: advanced prompt engineering, performance, reliability, controllability in production.
+    domain_hint: "prompt-engineering"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "长文：模式、原则、示例"
+      approx_weight: "约 210+ 行"
+      role: "核心知识库"
+    - part: "assets/prompt-template-library.md 等 references/"
+      nature: "多份 Markdown 模板与参考"
+      approx_weight: "多文件"
+      role: "可复用模式库"
+    - part: "scripts/（1 py）"
+      nature: "辅助"
+      approx_weight: "小"
+      role: "可选工具"
+  desc_code_relationship: |
+    以文档与模板为主；脚本非核心路径。
+  instruction_source: |
+    SKILL 与 references 分层查阅。
+  overall_impression: "素材库型 Skill：Description + 大量参考 Markdown。"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

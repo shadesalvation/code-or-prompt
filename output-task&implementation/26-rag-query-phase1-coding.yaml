@@ -1,0 +1,26 @@
+skill_id: "26_rag-query"
+skill_source: "zzzexamples/26_rag-query"
+
+task_code: "查询项目内部 RAG 语料中的决策、文档、模式与经验"
+domain_hint: "knowledge-retrieval / project-memory"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "自然语言目标说明 + 大量内嵌示教型 Python：查询类型、语料结构、结果格式、与其它 skill 的集成说明；大块代码主要是说明接口而非要求 Agent 原样执行"
+      approx_weight: "~55%"
+      role: "定义 rag-query 的概念模型、预期输入输出与 SDLC 使用时机"
+    - part: "scripts/"
+      nature: "`hybrid_search.py`（大型真实搜索脚本，含 TF-IDF、图扩展、多语料路径与缓存）"
+      approx_weight: "~45%"
+      role: "提供真正可运行的文本+图混合检索能力"
+  desc_code_relationship: |
+    该 skill 出现明显的“文档实现”与“真实脚本实现”并存现象：SKILL.md 重点讲的是 `query_corpus.py` 风格的概念接口，而目录中真正存在并可运行的是 `scripts/hybrid_search.py`。
+    因此 Description 提供的是理想化查询模型与语料约定，Code 提供的是更复杂的实际检索实现，但两者耦合并不紧。
+    这不是纯粹的 Description 调用 Code，更像是“文档原型 + 独立脚本实现”并置。
+  implementation_mode: "Description 主导 + Code 独立并存"
+
+review_flags:
+  - "SKILL.md 大段 `query_corpus.py` 代码为示教/说明性内嵌代码，按 description 处理而非 code"
+  - "目录中真实存在的脚本是 `scripts/hybrid_search.py`，与 SKILL.md 展示的接口名称并不一致(这里判断为该skill开发者自身的失误)"
+  - "本 skill 无独立 references/ 文件夹"

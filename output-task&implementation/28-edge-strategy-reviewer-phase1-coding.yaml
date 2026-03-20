@@ -1,0 +1,29 @@
+skill_id: "28_edge-strategy-reviewer"
+skill_source: "zzzexamples/28_edge-strategy-reviewer"
+
+task_code: "边际策略草案质量评审与导出门控"
+domain_hint: "quant-strategy-review / quality-gate"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "自然语言评审流程：输入前提、8 项标准、verdict 逻辑、命令调用方式、输出格式说明；包含 `python3 ... review_strategy_drafts.py ...` 等直接执行命令"
+      approx_weight: "~28%"
+      role: "定义评审场景、判决语义、输出文件位置与 strict-export 等运行方式"
+    - part: "scripts/ + 可执行命令块"
+      nature: "`review_strategy_drafts.py`（完整评分器）+ tests/ 中的 pytest 校验代码 + SKILL.md 中的可执行命令块"
+      approx_weight: "~47%"
+      role: "实际读取 YAML draft、逐项打分、计算 confidence、生成 review.yaml/json，并通过测试固定行为"
+    - part: "references/"
+      nature: "`review_criteria.md` 与 `overfitting_checklist.md`：评分细则、阈值说明与过拟合启发式"
+      approx_weight: "~25%"
+      role: "把脚本中的评分逻辑解释成人可审阅的规则依据，便于理解评分来源"
+  desc_code_relationship: |
+    SKILL.md 直接把 Agent 指向 `review_strategy_drafts.py`，因此代码是实际执行者。
+    但这份代码本身又严格映射 references/ 与 SKILL.md 中定义的评审标准，所以 Description/Reference 并不是可有可无的包装，而是决定了评分逻辑的规范来源。
+    整体表现为：Description 给出评审制度，Code 落实为可重复执行的 deterministic gate。
+  implementation_mode: "Code 主导 + Description 评审编排"
+
+review_flags:
+  - "references/ 与脚本逻辑高度同构，存在‘文档规则 -> 脚本硬编码’的强耦合"
+  - "tests/ 属于实现校验代码，已计入 code 比例"

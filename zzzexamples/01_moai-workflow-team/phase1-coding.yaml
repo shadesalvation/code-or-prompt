@@ -1,0 +1,40 @@
+# ===== Open Coding Record =====
+skill_id: "01_moai-workflow-team"
+skill_source: "zzzexamples/01_moai-workflow-team"
+
+# ----- 焦点 A: 任务类别 -----
+task_codes:
+  - code: "协调多 Agent 团队完成 MoAI 工作流任务"
+    evidence: |
+      Frontmatter description: team creation, teammate spawning, task decomposition,
+      inter-agent messaging, graceful shutdown; SPEC Plan/Run phases.
+    domain_hint: "multi-agent-workflow"
+    confidence: high
+
+# ----- 焦点 B: 实现方式 -----
+implementation_codes:
+  components:
+    - part: "SKILL.md 正文"
+      nature: "自然语言：模式选择、团队生命周期五阶段、任务分解规则、消息协调、错误恢复等"
+      approx_weight: "约 250 行，占 Skill 绝大部分"
+      role: "定义 Agent 作为 Team Lead 的完整操作手册与约束"
+    - part: "Frontmatter（MoAI 扩展）"
+      nature: "YAML：progressive_disclosure、triggers、allowed-tools、metadata"
+      approx_weight: "约 30 行"
+      role: "控制披露层级与触发关键词，约束可用工具"
+    - part: "可执行代码资产"
+      nature: "无随包 Python/脚本；依赖平台 Task/TeamCreate 等工具"
+      approx_weight: "0"
+      role: "执行完全由 Description + 宿主环境工具链承担"
+  desc_code_relationship: |
+    SKILL.md 未绑定本仓库内独立脚本；行为由长文 Description 与 Claude Code Agent Teams API 约定共同定义。
+    去掉 Description 则无法知道模式选择与生命周期步骤。
+  instruction_source: |
+    主要来自 SKILL.md 的分节流程（Overview → Mode Selection → Team Lifecycle → Coordination…）及代码块中的工具调用示例格式。
+  overall_impression: "纯 Description 驱动的平台工作流 Skill：篇幅集中在规则与阶段说明，无本地代码资产。"
+  evidence: "Workflow team lifecycle; TaskCreate; SendMessage; progressive_disclosure in frontmatter"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

@@ -1,0 +1,33 @@
+# ===== Open Coding Record =====
+skill_id: "08_git-pr-core"
+skill_source: "zzzexamples/08_git-pr-core"
+
+task_codes:
+  - code: "提供创建与管理 Pull Request 的通用脚本能力"
+    evidence: |
+      description: internal skill for common PR creation scripts; used by git-pr / git-cd-pr, not invoked directly.
+    domain_hint: "git-pr-automation"
+    confidence: medium
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "短说明（多语言 description）+ 使用说明"
+      approx_weight: "约 60+ 行"
+      role: "声明内部依赖关系与约束"
+    - part: "scripts/（Python 多个）与 shell"
+      nature: "可执行脚本与 Bash 辅助"
+      approx_weight: "py=5, sh=10（目录扫描）"
+      role: "PR 流程的实际实现"
+  desc_code_relationship: |
+    Description 声明本 Skill 为「内部库」；价值主要在脚本集合而非面向终端用户的叙事。
+  instruction_source: |
+    其他 Skill 通过调用本仓库脚本；本 SKILL 对 Agent 仅作说明与边界。
+  overall_impression: "代码资产为主、SKILL 为辅的内部工具包型 Skill。"
+  evidence: "description: internal; multiple scripts"
+  confidence: medium
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions:
+  - "焦点 A 是否应视为「用户结果」取决于调用方 Skill，此处按「提供 PR 能力」编码"

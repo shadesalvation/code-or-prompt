@@ -1,0 +1,35 @@
+skill_id: "15_senior-architect"
+skill_source: "zzzexamples/15_senior-architect"
+
+task_code: "进行系统架构设计、技术选型与依赖分析"
+domain_hint: "software-architecture / system-design"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "自然语言：技术栈清单（React/Next/Node/Go/Python/K8s 等）、3 个脚本的调用命令、3 份 reference 导航、开发流程、最佳实践（代码质量/性能/安全/可维护性）、常用命令与排障指引"
+      approx_weight: "~24%"
+      role: "唯一含有真实领域信息的文件——列出了具体技术栈、工作流步骤与质量原则；同时引用 3 个脚本和 3 份 reference"
+    - part: "scripts/"
+      nature: "3 个 Python CLI（project_architect.py / dependency_analyzer.py / architecture_diagram_generator.py），各 115 行，结构完全相同：argparse + validate_target + 空 analyze() + 通用 print 报告"
+      approx_weight: "~40%"
+      role: "名义上的自动化工具入口；但 analyze() 仅设 status='success' 与 findings=[]，不含任何架构分析、依赖扫描或图生成逻辑"
+    - part: "references/"
+      nature: "3 个 Markdown（architecture_patterns / system_design_workflows / tech_decision_guide），各 104 行，内容完全相同：占位结构（Pattern 1/2、Guidelines、Anti-Pattern 1/2），正文均为 'Detailed explanation of the pattern' 等 placeholder"
+      approx_weight: "~36%"
+      role: "名义上的架构模式与决策参考；实际为模板复制品，无真实知识增量"
+  desc_code_relationship: |
+    SKILL.md 在 Quick Start、Core Capabilities 和 Common Commands 中多次显式写出 3 个脚本的 python 调用命令。
+    然而，脚本全部是同一套脚手架的 rename 版本，核心 analyze() 为空。
+    references/ 被 SKILL.md 的 Reference Documentation 节引用并描述了各自"应该"包含的内容（pattern/workflow/decision），但 3 个文件实际内容完全一样，均为占位模板。
+    因此，如果 Agent 运行这个 skill，唯一能提供架构知识的是 SKILL.md 中的技术栈清单与最佳实践条目，脚本和参考资料均无法贡献实质内容。
+  implementation_mode: "Description 主导（Code 与 Reference 均为占位模板）"
+
+review_flags:
+  - "3 个脚本代码完全同构，仅 class 名不同——高度疑似自动化生成的脚手架，非成品工具"
+  - "3 个 references 文件内容逐字相同（除 H1 标题外），信息增量为零"
+  - "SKILL.md 宣称脚本具备 'Deep analysis / Automated fixes / Production-grade output' 等能力，与实际空实现矛盾"
+  - "frontmatter description 列出了 12+ 技术栈关键词，但 skill 内部无任何针对性知识"
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"

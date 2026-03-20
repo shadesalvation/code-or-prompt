@@ -1,0 +1,33 @@
+# ===== Open Coding Record =====
+skill_id: "22_skill-cost-credit-governor"
+skill_source: "zzzexamples/22_skill-cost-credit-governor"
+
+task_codes:
+  - code: "按策略治理多 Skill 调用的积分与 Token 消耗"
+    evidence: |
+      description: warn/throttle/disable on usage spikes, agent chatter, budget overruns.
+    domain_hint: "cost-governance"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "工作流与阈值说明"
+      approx_weight: "约 90+ 行"
+      role: "策略与触发条件"
+    - part: "scripts/（1 py）"
+      nature: "计量或执行治理动作"
+      approx_weight: "核心逻辑"
+      role: "确定性执行"
+    - part: "references/"
+      nature: "policy-contract 等"
+      approx_weight: "少量"
+      role: "契约与规则"
+  desc_code_relationship: |
+    规则在 SKILL 与 references；执行在脚本。
+  overall_impression: "策略文档 + 单脚本的治理 Skill。"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

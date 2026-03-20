@@ -1,0 +1,3 @@
+skill 中可能会出现：在skill的目录中有code的存在，但是description中丝毫没有提到对该code的调用说明。
+skill 中可执行code可能会存在于.md中，但是此时我倾向于将其归类为code资产。
+skill 中又是会引用未提供的脚本文件，目前情况未知。

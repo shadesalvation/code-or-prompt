@@ -1,0 +1,71 @@
+{
+  "skill_name": "idea-direction-generator",
+  "skill_source": "zzzexamples/07_idea-direction-generator",
+  "task_type": ["generation", "ideation"],
+  "primary_type": "Type 1",
+  "primary_type_name": "Pipeline",
+  "secondary_tags": ["contains_principles", "contains_guard_rules"],
+  "confidence": 0.88,
+  "dimension_assessment": {
+    "C": {
+      "value": "有可执行代码资产",
+      "judgement": "scripts/run.py 被 Description 明确要求调用（Quick Start 和 Examples 段均给出调用命令），因此进入 Type 1/2 候选空间。"
+    },
+    "R": {
+      "value": "不适用",
+      "judgement": "只有一个脚本 run.py，不存在多脚本间的调用关系，R 维度无参照物，判定为不适用。转由 A 维度补充决策（Rule 3）。"
+    },
+    "D": {
+      "value": "正向-强",
+      "judgement": "Description 给出了明确的任务目标（turn a signal table into a direction pool）和调用方式，属于正向引导。但流程细节全部封装在脚本内部，Description 层面的流程描述较简略。"
+    },
+    "F": {
+      "value": "无结构化参考",
+      "judgement": "没有附带模板、Schema、JSON/YAML 示例或 templates/ 目录。质量原则以纯文字列表形式给出。该判定不影响 Type 1/2 的主分类。"
+    },
+    "S": {
+      "value": "隐式结构化",
+      "judgement": "Description 未显式定义输出格式，但 run.py 内部硬编码了输出为 Markdown + JSONL 双格式。Description 与代码之间存在隐式的格式约定。"
+    },
+    "A": {
+      "value": "执行者",
+      "judgement": "Agent 的决策空间极小：唯一必需参数是 --workspace，其余参数均有默认值或由上游合约决定。Agent 不需要选择声音/格式/场景等，只需确认前置条件（信号表存在、C2 已完成）后直接调用脚本。因此判定为执行者。"
+    }
+  },
+  "reasoning_chain": {
+    "step_1_code_presence": {
+      "question": "是否存在可执行代码资产？",
+      "answer": "是。scripts/run.py 被 Description 明确要求调用。"
+    },
+    "step_2_script_count": {
+      "question": "脚本数量？",
+      "answer": "单脚本（仅 scripts/run.py）。"
+    },
+    "step_3_sequential_flow": {
+      "question": "Description 是否将该脚本嵌入固定顺序流程？",
+      "answer": "否。Description 没有定义多步骤顺序流程，只提供了一个直接调用命令。"
+    },
+    "step_4_agent_autonomy": {
+      "question": "A 维度：Agent 的决策空间如何？",
+      "answer": "执行者。Agent 无实质决策空间——唯一必需参数是 workspace 路径，其余参数有默认值，不存在参数选择、场景判断或条件决策。"
+    },
+    "step_5_type_selection": {
+      "selected_type": "Type 1",
+      "direct_reason": "单脚本 + R 不适用 + A=执行者，根据 v7 Rule 3 判为 Type 1。"
+    }
+  },
+  "validation": {
+    "S_check": {
+      "desc_expected": "未明确约定",
+      "artifact_observed": "隐式结构化（run.py 内部输出 Markdown + JSONL）",
+      "status": "minor_gap",
+      "note": "Description 未说明输出格式，但代码中有固定格式。使用者需查看代码或实际输出才能了解格式。"
+    },
+    "A_check": {
+      "desc_expected": "执行者",
+      "artifact_observed": "执行者",
+      "status": "match"
+    }
+  },
+  "final_explanation": "该 skill 只有一个可执行脚本 run.py，Description 不定义多步流程，Agent 的职责仅是确认前置条件后拼装 workspace 参数调用脚本，无任何参数选择或场景判断空间（A=执行者）。根据 v7 Rule 3，单脚本 + 执行者 → Type 1。同时 Description 包含 7 条质量原则（secondary_tag: contains_principles）和 1 条硬性禁令（secondary_tag: contains_guard_rules），但这些不改变主类型判定。"
+}

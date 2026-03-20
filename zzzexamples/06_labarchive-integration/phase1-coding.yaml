@@ -1,0 +1,36 @@
+# ===== Open Coding Record =====
+skill_id: "06_labarchive-integration"
+skill_source: "zzzexamples/06_labarchive-integration"
+
+task_codes:
+  - code: "通过 API 集成电子实验记录（ELN）工作流"
+    evidence: |
+      description: access notebooks, entries/attachments, backup, integrate Protocols.io/Jupyter/REDCap.
+    domain_hint: "eln-integration"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "长文自然语言：认证、端点、操作步骤"
+      approx_weight: "约 260+ 行"
+      role: "主操作手册"
+    - part: "scripts/（Python×3）"
+      nature: "可执行脚本"
+      approx_weight: "中等"
+      role: "封装 API 调用或批处理"
+    - part: "references/"
+      nature: "集成与 API 文档"
+      approx_weight: "若干 md"
+      role: "参数与错误处理细节"
+  desc_code_relationship: |
+    Description 定义何时调用何操作；脚本承担具体 HTTP/SDK 调用。
+  instruction_source: |
+    SKILL 分节 + references；脚本为命令行入口。
+  overall_impression: "Description + 多脚本并重的集成类 Skill。"
+  evidence: "py=3; long SKILL.md"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

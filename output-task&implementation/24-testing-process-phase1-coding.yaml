@@ -1,0 +1,29 @@
+skill_id: "24_testing-process"
+skill_source: "zzzexamples/24_testing-process"
+
+task_code: "为项目提供测试策略、路由与方法论导航"
+domain_hint: "testing-methodology / skill-routing"
+
+implementation:
+  components:
+    - part: "SKILL.md + orchestrator.md"
+      nature: "大体量自然语言方法论文档：测试金字塔、领域划分、路由树、升级边界、与其它 skill 的关系；另含少量可执行导航/测试命令"
+      approx_weight: "~25%"
+      role: "定义这个 skill 的定位是 QUOI/QUAND/PURQUOI，而不是具体测试代码实现"
+    - part: "tests/ + run-tests.sh + 可执行命令块"
+      nature: "Node/bash 校验脚本与 npm test 命令，用于验证文档路由、agents 覆盖和 markdown 结构，而非执行业务测试"
+      approx_weight: "~15%"
+      role: "对 skill 自身文档与路由结构做一致性校验，保证方法论库可维护"
+    - part: "agents/"
+      nature: "25 个子领域 Markdown（strategy/types/quality/performance/security/accessibility），均为方法论与路由知识库"
+      approx_weight: "~60%"
+      role: "提供实际的专业内容主体，支持 Agent 根据问题类型切换到相应测试主题"
+  desc_code_relationship: |
+    这个 skill 的核心不是让 Agent 运行测试代码，而是让 Agent 先判断“该问什么、该测什么、该路由到哪个 testing 子域”。
+    代码部分只用于验证这套知识库的结构是否完整、路由关键词是否存在，因此是文档体系的维护辅助，而不是面向用户请求的核心执行器。
+    因此它本质上是一个以 Description/Reference 为主的流程型知识技能。
+  implementation_mode: "Description/Reference 主导 + Code 文档校验辅助"
+
+review_flags:
+  - "`agents/` 下均为说明性 Markdown，虽名为 agents，但按 reference 处理"
+  - "`tests/` 中的代码验证的是 skill 文档与路由结构，不是项目业务测试实现"

@@ -1,0 +1,36 @@
+# ===== Open Coding Record =====
+skill_id: "05_performing-supply-chain-attack-simulation"
+skill_source: "zzzexamples/05_performing-supply-chain-attack-simulation"
+
+task_codes:
+  - code: "模拟并检测软件供应链攻击相关风险"
+    evidence: |
+      description: typosquatting, dependency confusion, pip hash verification, pip-audit.
+    domain_hint: "supply-chain-security"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "短文：触发条件与流程说明"
+      approx_weight: "约 30+ 行"
+      role: "定义检测/模拟步骤"
+    - part: "Python 脚本"
+      nature: "1 个 .py"
+      approx_weight: "核心执行逻辑所在"
+      role: "执行 Levenshtein/检测等计算"
+    - part: "references/"
+      nature: "补充 md"
+      approx_weight: "少量"
+      role: "规则或命令说明"
+  desc_code_relationship: |
+    Description 说明目标与流程；具体检测由脚本实现，Agent 按 SKILL 调用脚本与解释输出。
+  instruction_source: |
+    SKILL 步骤 + 脚本行为；pip/pip-audit 等外部命令在 Description 中约定。
+  overall_impression: "短 SKILL + 单脚本为核心的检测型 Skill。"
+  evidence: "Short SKILL; single py file count"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

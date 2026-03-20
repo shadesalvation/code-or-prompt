@@ -1,0 +1,33 @@
+# ===== Open Coding Record =====
+skill_id: "29_analyzing-ios-app-security-with-objection"
+skill_source: "zzzexamples/29_analyzing-ios-app-security-with-objection"
+
+task_codes:
+  - code: "对 iOS 应用进行基于 Objection/Frida 的运行时安全评估"
+    evidence: |
+      description: Objection, Frida, keychain, filesystem, runtime behavior, non-jailbreak context.
+    domain_hint: "mobile-security-ios"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "长文：命令、场景、模板"
+      approx_weight: "约 180+ 行"
+      role: "测试步骤与报告结构"
+    - part: "scripts/（2 py）"
+      nature: "辅助自动化"
+      approx_weight: "小"
+      role: "可选封装"
+    - part: "references/ + assets/template.md"
+      nature: "标准与工作流"
+      approx_weight: "多 md"
+      role: "清单与模板"
+  desc_code_relationship: |
+    核心依赖宿主安装 objection/frida；SKILL 教命令序列；脚本为辅。
+  overall_impression: "手册 + 外部工具链的移动安全 Skill。"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

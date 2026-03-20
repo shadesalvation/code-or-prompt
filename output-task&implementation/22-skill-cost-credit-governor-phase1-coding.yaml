@@ -1,0 +1,29 @@
+skill_id: "22_skill-cost-credit-governor"
+skill_source: "zzzexamples/22_skill-cost-credit-governor"
+
+task_code: "管控skill调用成本并提供控制动作"
+domain_hint: "llm-ops / cost-governance"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "自然语言治理流程：输入要求、分析步骤、动作映射、链路门禁与失败回路；包含 `python3 ... skill_cost_governor.py analyze/decide` 等可直接执行命令"
+      approx_weight: "~30%"
+      role: "定义该 skill 的治理语义与执行顺序，把 Agent 行为约束到先分析、再决策、再写审计产物的闭环"
+    - part: "scripts/ + 可执行命令块"
+      nature: "`skill_cost_governor.py`（完整 CLI）+ SKILL.md 中的 analyze/decide 命令块"
+      approx_weight: "~45%"
+      role: "真正执行 usage 读取、异常检测、预算压力判断、动作升级与 policy JSON 生成"
+    - part: "references/"
+      nature: "`governor-workflow.md` 与 `policy-contract.md`：结构化流程说明、输出字段约定、reason codes 与 artifact 契约"
+      approx_weight: "~25%"
+      role: "把脚本输出与上游/下游调用方对齐，提供机器可消费结果的语义边界"
+  desc_code_relationship: |
+    SKILL.md 已明确给出 `analyze` 与 `decide` 两段命令，因此代码不是可选示例，而是核心执行器。
+    Description 负责治理流程、门禁要求和动作语义；Code 负责把 usage 事件转成 anomaly evidence 与 policy action；Reference 负责规范输出 JSON 的契约。
+    三者形成“规则定义 -> 程序计算 -> 结果契约”的闭环。
+  implementation_mode: "Code 主导 + Description 治理编排"
+
+review_flags:
+  - "`agents/openai.yaml` 仅为元数据，未计入三类比例"
+  - "references/ 更偏契约与流程定义，而非普通说明文档，因此按 structured reference 处理"

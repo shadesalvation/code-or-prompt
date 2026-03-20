@@ -1,0 +1,31 @@
+# ===== Open Coding Record =====
+skill_id: "27_ai-assistant-technical-instructions"
+skill_source: "zzzexamples/27_ai-assistant-technical-instructions"
+
+task_codes:
+  - code: "约束 Agent 按通用技术指令高效执行任务"
+    evidence: |
+      description: advanced problem-solving; confirm user instructions first; source cursorrules.
+    domain_hint: "meta-prompting"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "长文行为规范（多章节）"
+      approx_weight: "约 280+ 行，几乎全部"
+      role: "全局执行协议"
+    - part: "scripts/（1 py）"
+      nature: "极小或示例"
+      approx_weight: "可忽略"
+      role: "非核心"
+  desc_code_relationship: |
+    几乎无业务代码；纯文本协议型 Skill。
+  instruction_source: |
+    全文即指令；source 标注 cursorrules。
+  overall_impression: "极端偏 Description 的元指令 Skill。"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

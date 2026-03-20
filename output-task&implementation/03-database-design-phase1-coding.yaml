@@ -1,0 +1,31 @@
+skill_id: "03_database-design"
+skill_source: "zzzexamples/03_database-design"
+
+task_code: "数据库选型、表结构设计、索引与迁移等方法论决策"
+domain_hint: "database-design / sql-orm"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "轻量入口文档：选择性阅读规则、核心原则、决策清单、反模式与触发条件；主要承担导航与方法论约束"
+      approx_weight: "~12%"
+      role: "告诉 Agent 不要默认 PostgreSQL，而应先根据请求场景选择阅读哪份专题文档"
+    - part: "6 份专题 Markdown"
+      nature: "`database-selection.md`、`orm-selection.md`、`schema-design.md`、`indexing.md`、`optimization.md`、`migrations.md`；均为决策树、对比表、最佳实践与迁移原则，无直接执行代码"
+      approx_weight: "~53%"
+      role: "承载 skill 的主要知识本体：数据库/ORM 选型、规范化、索引原则、查询优化与安全迁移策略"
+    - part: "scripts/schema_validator.py"
+      nature: "单个 Python 校验脚本（173 行），自动发现 Prisma/Drizzle schema 并输出命名、关系、索引等建议"
+      approx_weight: "~35%"
+      role: "把部分原则程序化，提供 schema 层面的辅助检查，而不是完成数据库设计本身"
+  desc_code_relationship: |
+    这个 skill 的主要能力并不来自脚本，而来自 6 份专题 Markdown 里的结构化方法论。
+    SKILL.md 只负责把问题分流到正确主题；`schema_validator.py` 则把其中一部分原则程序化，用于在现有项目上做 schema 体检。
+    典型使用方式是：先靠文档完成设计思考与方案选择，再在已有 schema 上运行脚本做辅助验证。
+    去掉脚本文档仍能支撑数据库设计讨论；去掉专题文档只剩下一个局部 validator，无法承载 skill 的主要设计知识。
+  implementation_mode: "Reference 主导 + Code 辅助校验"
+
+review_flags:
+  - "专题知识文件位于 skill 根目录而非 `references/` 子目录，但内容性质上属于 structured reference"
+  - "`schema_validator.py` 目前主要覆盖 Prisma，Drizzle 分支基本是占位式发现而非深度校验"
+  - "本 skill 几乎没有会被 Agent 原样执行的内联命令，code 主要来自独立脚本文件"

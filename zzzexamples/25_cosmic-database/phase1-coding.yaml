@@ -1,0 +1,33 @@
+# ===== Open Coding Record =====
+skill_id: "25_cosmic-database"
+skill_source: "zzzexamples/25_cosmic-database"
+
+task_codes:
+  - code: "查询 COSMIC 癌症突变数据库并返回研究数据"
+    evidence: |
+      description: somatic mutations, Cancer Gene Census, signatures, fusions; requires authentication.
+    domain_hint: "cancer-genomics"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "长文：概述、认证、查询模式"
+      approx_weight: "约 320+ 行"
+      role: "使用手册与约束"
+    - part: "scripts/（1 py）"
+      nature: "API 客户端或封装"
+      approx_weight: "核心调用"
+      role: "请求与解析"
+    - part: "references/cosmic_data_reference.md"
+      nature: "数据参考"
+      approx_weight: "中等"
+      role: "字段与实体说明"
+  desc_code_relationship: |
+    认证与查询语义在 SKILL；HTTP/API 在脚本。
+  overall_impression: "长说明 + 单脚本的科研数据访问 Skill。"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

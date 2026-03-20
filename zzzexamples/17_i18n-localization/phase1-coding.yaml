@@ -1,0 +1,29 @@
+# ===== Open Coding Record =====
+skill_id: "17_i18n-localization"
+skill_source: "zzzexamples/17_i18n-localization"
+
+task_codes:
+  - code: "指导国际化与本地化改造与资源管理"
+    evidence: |
+      description: hardcoded strings, translations, locale files, RTL (Portuguese text in description).
+    domain_hint: "i18n-l10n"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "葡萄牙语/技术混合长文"
+      approx_weight: "约 150+ 行"
+      role: "规则与清单"
+    - part: "scripts/（1 py）"
+      nature: "辅助扫描或提取"
+      approx_weight: "小"
+      role: "自动化支持"
+  desc_code_relationship: |
+    方法论在 SKILL；脚本可能用于字符串扫描。
+  overall_impression: "单 SKILL 为主、脚本为辅的规范型 Skill。"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

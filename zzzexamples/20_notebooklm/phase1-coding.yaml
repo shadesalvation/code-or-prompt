@@ -1,0 +1,35 @@
+# ===== Open Coding Record =====
+skill_id: "20_notebooklm"
+skill_source: "zzzexamples/20_notebooklm"
+
+task_codes:
+  - code: "基于用户 NotebookLM 资料返回带引用的 grounded 回答"
+    evidence: |
+      description: query NotebookLM from Claude Code; citation-backed; browser automation; persistent auth.
+    domain_hint: "notebooklm-rag"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "长文：浏览器会话、查询流程、故障排除"
+      approx_weight: "约 260+ 行"
+      role: "操作手册"
+    - part: "scripts/（多 Python）"
+      nature: "浏览器自动化与库管理"
+      approx_weight: "py=9"
+      role: "实际与 NotebookLM/Gemini 交互"
+    - part: "references/"
+      nature: "API、用法模式、排错"
+      approx_weight: "多 md"
+      role: "细节与边界情况"
+  desc_code_relationship: |
+    重代码（自动化）+ 长 SKILL 说明；二者强依赖。
+  instruction_source: |
+    SKILL 流程 + 脚本入口；AUTHENTICATION 等单独 md。
+  overall_impression: "浏览器自动化代码占比高 + 详尽说明的集成 Skill。"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

@@ -1,0 +1,29 @@
+# ===== Open Coding Record =====
+skill_id: "23_demo-page"
+skill_source: "zzzexamples/23_demo-page"
+
+task_codes:
+  - code: "重建并发布 unityctl 的 GitHub Pages 演示页"
+    evidence: |
+      description: rebuild/publish demo at dirtybitgames.github.io/unityctl; gh-pages, screenshots/video.
+    domain_hint: "docs-site-demo"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "工作流：分支、构建、截图"
+      approx_weight: "约 100+ 行"
+      role: "发布步骤"
+    - part: "scripts/（1 py）"
+      nature: "构建或辅助"
+      approx_weight: "小"
+      role: "自动化步骤"
+  desc_code_relationship: |
+    以流程说明为主；脚本辅助重复任务。
+  overall_impression: "发布手册型 Skill。"
+  confidence: medium
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

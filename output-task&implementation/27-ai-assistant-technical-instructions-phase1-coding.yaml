@@ -1,0 +1,21 @@
+skill_id: "27_ai-assistant-technical-instructions"
+skill_source: "zzzexamples/27_ai-assistant-technical-instructions"
+
+task_code: "为 AI 助手施加统一的技术执行规范与汇报模板，提供指导"
+domain_hint: "meta-instruction / assistant-governance"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "超大篇幅自然语言规范：任务分析、执行、质控、最终报告格式、技术栈约束、Flutter 目录规范与命名规则；以模板变量 `{{instructions}}` 为入口"
+      approx_weight: "~100%"
+      role: "直接塑造 Agent 的思考顺序、执行纪律与结果汇报格式，是 skill 的全部实质内容"
+  desc_code_relationship: |
+    该 skill 几乎完全通过提示词和规范文本工作，不依赖真实可执行程序来完成任务。
+    目录中的 `__init__.py` 为空文件，不承载实际功能，因此 code 维度可视为缺席。
+    这是典型的“用说明文本约束 Agent 行为”的元指令技能。
+  implementation_mode: "纯 Description 驱动"
+
+review_flags:
+  - "`__init__.py` 为空文件，未计入 code 比例"
+  - "本 skill 无独立 references/ 文件夹，技术栈与目录规范均内嵌于 SKILL.md"

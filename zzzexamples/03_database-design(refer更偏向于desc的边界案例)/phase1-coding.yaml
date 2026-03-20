@@ -1,0 +1,37 @@
+# ===== Open Coding Record =====
+skill_id: "03_database-design"
+skill_source: "zzzexamples/03_database-design"
+
+task_codes:
+  - code: "指导数据库与 schema 相关设计决策"
+    evidence: |
+      description: database design principles, schema design, indexing, ORM selection, serverless databases.
+    domain_hint: "database-design"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "短正文：选择性阅读规则、核心原则、清单、反模式"
+      approx_weight: "约 50+ 行"
+      role: "入口与路由到专题文件"
+    - part: "同目录专题 .md"
+      nature: "database-selection / orm-selection / schema-design / indexing / optimization / migrations"
+      approx_weight: "多文件，与 SKILL 合计为主要篇幅"
+      role: "结构化决策素材与对比表"
+    - part: "scripts/schema_validator.py"
+      nature: "Python（若存在且被引用）"
+      approx_weight: "1 个脚本文件"
+      role: "可选校验辅助；需对照 SKILL 是否显式引用"
+  desc_code_relationship: |
+    SKILL.md 以「内容地图」指向各专题 Markdown；若有脚本,"schema_validator.py 人工核验后该文件并未被显式引用，需agent自行判断".
+  instruction_source: |
+    Agent 按用户问题选择性读取对应 md；原则与清单在 SKILL 顶层。
+  overall_impression: "内容路由型：短 SKILL + 多专题参考文件；Description 主导，代码若有则为辅。"
+  evidence: "Selective Reading Rule table; Core Principle; When to Use"
+  confidence: medium
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions:
+  - "schema_validator.py 是否在 SKILL 中被显式引用需人工二次核对"

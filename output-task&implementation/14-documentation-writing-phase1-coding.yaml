@@ -1,0 +1,38 @@
+skill_id: "14_documentation-writing"
+skill_source: "zzzexamples/14_documentation-writing"
+
+task_code: "按 Eight Rules / Diataxis 框架编写高质量软件文档"
+domain_hint: "documentation / technical-writing"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "角色激活 + Eight Rules + Diataxis 文档类型 + 5 步工作流 + 导航指引 + 反模式表 + Retcon 例外"
+      approx_weight: "~4%"
+      role: "定义 Agent 文档写作行为的核心指令；引用 reference.md 与 examples.md 作为补充"
+    - part: "reference.md + examples.md"
+      nature: "reference.md（402 行）：YAML frontmatter 规范、Diataxis 四类完整定义与示例结构、Markdown 风格约定、Review Checklist；examples.md（516 行）：四类文档的 copy-paste 模板 + Before/After 实战对比 + 链接/时效性示例"
+      approx_weight: "~18%"
+      role: "Agent 编写文档时的详细参考——规范、模板、示例，全部为自然语言 + 内联 Markdown 示例"
+    - part: "github_pages/（Python 包 + tests）"
+      nature: "完整 MkDocs 文档站点生成/三遍验证/GitHub Pages 部署工具链（generator/validator/deployer/mkdocs_config + 5 个测试文件 + conftest）"
+      approx_weight: "~73%"
+      role: "独立的文档站点自动化工具——生成 MkDocs 配置、三遍质量验证（覆盖率/清晰度/现实性）、gh-pages 部署"
+    - part: "github_pages/README.md"
+      nature: "Python 包的 API 文档（288 行）：Public API、三遍验证说明、使用示例、CI/CD 集成、依赖、安全特性"
+      approx_weight: "~5%"
+      role: "github_pages 包的使用说明，面向开发者而非 Agent"
+  desc_code_relationship: |
+    SKILL.md 仅引用 reference.md 和 examples.md，**不引用** github_pages/ 下的任何代码。
+    Agent 的文档写作能力完全来源于描述文件（Eight Rules、Diataxis 框架、模板）。
+    github_pages/ 是一个独立的 Python 工具包（生成/验证/部署 MkDocs 站点），与 SKILL.md 共存但未被 SKILL.md 调用。
+    两者关系为"方法论 + 可选工具"——Agent 可以不使用 github_pages/ 也能写出符合规范的文档。
+  implementation_mode: "Description 主导 + Code 独立并存（未被 SKILL 调用）"
+
+review_flags:
+  - "SKILL.md 未引用 github_pages/ 代码——需确认 Agent 是否通过其他机制（如 allowed-tools）触发该包"
+  - "github_pages/README.md 含丰富 API 示例，介于 description 与 reference 之间"
+  - "tests/ 占 github_pages/ 约 50% 行数，若排除测试则 Code 比例降至 ~50%"
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"

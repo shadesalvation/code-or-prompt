@@ -1,0 +1,32 @@
+skill_id: "speech"
+skill_source: "test-skills/speech"
+
+task_code: "将文本转化为语音音频"
+domain_hint: "audio/media-generation"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "自然语言：工作流 8 步、规则与默认值、指令增强模板、场景导航、环境说明"
+      approx_weight: "~17%"
+      role: "定义 Agent 完整执行路径、决策规则与指令增强方法"
+    - part: "scripts/ + 内联代码"
+      nature: "Python CLI（text_to_speech.py ~200 行）+ SKILL.md 与 cli.md 中的内联 bash 代码块"
+      approx_weight: "~27%"
+      role: "封装 OpenAI Audio API 调用，Agent 按参数拼装调用"
+    - part: "references/"
+      nature: "10 个 Markdown：场景模板（narration/voiceover/ivr/accessibility）、提示词指南（prompting/voice-directions/sample-prompts）、CLI 用法、API 速查、排障"
+      approx_weight: "~56%"
+      role: "按场景提供指导型知识与默认值，audio-api.md 为纯参考速查"
+  desc_code_relationship: |
+    SKILL.md 在 Step 5 明确指示调用 text_to_speech.py，并强调 "Prefer the bundled CLI" 和 "Never modify"。
+    Description 负责调用前的全部准备（意图判断、输入收集、指令增强、参数选择）和调用后的善后（验证、迭代、保存）；
+    Code 只负责实际 API 交互。去掉 Code Agent 需自写 API 调用，去掉 Description Agent 不知何时用、怎么拼参数。
+  implementation_mode: "Description 主导 + Code 执行"
+
+review_flags:
+  - "sample-prompts.md 和 voice-directions.md 含可复制模板，介于指导型 description 与结构化 reference 之间"
+  - "agents/openai.yaml（界面元数据 ~7 行）未计入比例"
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"

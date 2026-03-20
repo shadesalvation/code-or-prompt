@@ -1,0 +1,28 @@
+skill_id: "08_git-pr-core"
+skill_source: "zzzexamples/08_git-pr-core"
+
+task_code: "作为内部复用模块，为其他 Git PR 相关 skill 提供创建 Pull Request 所需的通用脚本和基础操作能力。"
+domain_hint: "devops / pull-request-automation"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "约 50 行：声明本 skill 为内部共享、脚本清单表、使用 `CORE_SCRIPTS` 的 bash 示例"
+      approx_weight: "~5%"
+      role: "说明脚本用途与调用约定，不承载业务叙事"
+    - part: "scripts/"
+      nature: "多枚 bash + Python（check_scopes、create_pr、assign_milestone、project_cache、milestone_cache 等），合计约 900+ 行"
+      approx_weight: "~88%"
+      role: "全部可执行能力：GitHub CLI/gh 交互、分支与模板校验、PR 创建与项目字段写入"
+    - part: "references/"
+      nature: "`review-template.md`、`todos-template.md` 等模板类 Markdown"
+      approx_weight: "~7%"
+      role: "供 PR 描述或 review 清单引用，非执行逻辑"
+  desc_code_relationship: |
+    SKILL.md 明确「不应被直接调用」，仅索引脚本路径与参数；真正的 skill 行为由子脚本承担。
+    上游 skill 通过 `bash`/`python3` 调用本目录脚本；Description 层极薄。
+  implementation_mode: "Code 主导 + Description 索引"
+
+review_flags:
+  - "依赖环境变量如 `CORE_SCRIPTS`、`CLAUDE_PLUGIN_ROOT` 及 gh CLI，未在 skill 内封装"
+  - "模板文件按 reference 处理"

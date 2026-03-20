@@ -1,0 +1,36 @@
+# ===== Open Coding Record =====
+skill_id: "02_audio-transcriber"
+skill_source: "zzzexamples/02_audio-transcriber"
+
+task_codes:
+  - code: "将音频转化为带摘要的结构化 Markdown 文档"
+    evidence: |
+      description: transform audio recordings into professional Markdown documentation with intelligent summaries.
+    domain_hint: "audio-transcription-llm"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "长文自然语言：流程、工具对比、质量门禁、示例"
+      approx_weight: "约 560+ 行，主体"
+      role: "编排转写、后处理与输出规范"
+    - part: "scripts/ 与 shell"
+      nature: "Python 辅助脚本 + shell 示例"
+      approx_weight: "少量文件"
+      role: "可调用工具或批处理，支撑确定性步骤"
+    - part: "references/"
+      nature: "Markdown 参考（如工具对比）"
+      approx_weight: "若干"
+      role: "领域知识与选型依据"
+  desc_code_relationship: |
+    Description 定义何时用何工具、输出格式与约束；本地脚本作为可选执行路径被引用。
+  instruction_source: |
+    以 SKILL.md 长文为主，references 为补充；脚本逻辑对「转写管线」起落地作用。
+  overall_impression: "Description 占比极高，辅以脚本与参考文档的管线型音频转写 Skill。"
+  evidence: "Purpose section; references/tools-comparison; scripts present"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

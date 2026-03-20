@@ -1,0 +1,32 @@
+# ===== Open Coding Record =====
+skill_id: "07_idea-direction-generator"
+skill_source: "zzzexamples/07_idea-direction-generator"
+
+task_codes:
+  - code: "从信号表生成研究方向候选池 Markdown 文件"
+    evidence: |
+      description: writing output/trace/IDEA_DIRECTION_POOL.md; compact pool of research directions from signal table.
+    domain_hint: "research-brainstorm"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "短文：目标、质量偏好、脚本 Quick Start"
+      approx_weight: "约 40+ 行"
+      role: "参数与入口说明"
+    - part: "scripts/run.py"
+      nature: "Python 单脚本"
+      approx_weight: "核心执行"
+      role: "从 signal table 生成方向池文件"
+  desc_code_relationship: |
+    SKILL 明确 CLI 调用方式；生成逻辑在脚本中，Description 规定输出路径与 guardrail。
+  instruction_source: |
+    以 SKILL 中的命令行与约束为主；脚本实现具体生成。
+  overall_impression: "单脚本 + 短 SKILL 的流水线型 Skill。"
+  evidence: "python scripts/run.py --workspace"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

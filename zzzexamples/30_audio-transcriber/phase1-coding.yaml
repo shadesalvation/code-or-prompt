@@ -1,0 +1,36 @@
+# ===== Open Coding Record =====
+skill_id: "30_audio-transcriber"
+skill_source: "zzzexamples/30_audio-transcriber"
+
+task_codes:
+  - code: "将音频转化为带智能摘要的专业 Markdown 文档"
+    evidence: |
+      description: Transform audio recordings into professional Markdown documentation with intelligent summaries using LLM integration.
+    domain_hint: "audio-transcription-llm"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "长文（与 02 同源或近源变体）：流程、工具、质量"
+      approx_weight: "约 550+ 行"
+      role: "主叙事与管线"
+    - part: "scripts/ + shell"
+      nature: "Python + shell"
+      approx_weight: "与 02 类似"
+      role: "执行转写与后处理"
+    - part: "references/"
+      nature: "工具对比等"
+      approx_weight: "若干"
+      role: "选型依据"
+  desc_code_relationship: |
+    与同系列 audio-transcriber 相同结构：长 SKILL + 脚本管线。
+  instruction_source: |
+    SKILL 长文为主；CHANGELOG 等元数据在 frontmatter。
+  overall_impression: "Description 主导的音频转写管线 Skill（30 号样本）。"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions:
+  - "与 02_audio-transcriber 的差异若有版本/作者信息可进一步对照"

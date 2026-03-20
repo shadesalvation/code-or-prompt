@@ -1,0 +1,378 @@
+# Agent Skill 六类型分类框架
+
+## 概述
+
+基于六维度分析（C/D/F/R/S/A），将 Agent Skill 自动分为 **6 种类型**。其中，**C/R/D/F 用于主类型分类**，**S/A 用于补充解释与一致性验证**。
+
+分类使用四个维度作为主决策轴：
+
+- **C 维度（Code 存在性）** — 主分类轴，区分有可执行代码资产的 Skill（Type 1/2）与无可执行代码资产的 Skill（Type 3/4/5/6）
+- **R 维度（Description–Code 耦合度）** — 在 `C=有可执行代码资产` 时区分 Type 1 与 Type 2
+- **D 维度（Description 控制模式）** — 在 `C=无可执行代码资产` 时区分是明确流程、弱原则还是负向约束
+- **F 维度（参考素材形式）** — 全局描述维度，在 `D=正向-强` 时进一步区分是否附带结构化参考素材（Type 3 vs Type 4）
+
+此外，框架允许 **“主类型 + 副标签”** 的复合表示：每个 Skill 仍归入一个主类型，但可额外记录 `secondary_tags` 来保留约束、原则、结构化参考等混合特征。
+
+---
+
+## 决策树
+
+```text
+C = 有可执行代码资产 ?
+  ├── 是 → R ?
+  │       ├── R = 紧耦合 ─────→ Type 1: 管道型 (Pipeline)
+  │       └── R = 松耦合 ─────→ Type 2: 工具箱型 (Toolkit)
+  │
+  └── 否 → D ?
+          ├── D = 正向-强 → F ?
+          │              ├── F = 有结构化参考 ─→ Type 3: 编排型 (Orchestrator)
+          │              └── F = 无结构化参考 ─→ Type 4: 指导型 (Guide)
+          │
+          ├── D = 正向-弱 ─────→ Type 5: 原则指南型 (Principle Guide)
+          └── D = 负向 ───────→ Type 6: 约束规则型 (Constraint/Guard)
+```
+
+### 总体覆盖顺序
+
+```text
+P0. 先判 C：有可执行代码资产 → Type 1/2；无可执行代码资产 → Type 3/4/5/6
+P1. 若 C = 有可执行代码资产，则用 R 区分：紧耦合 → Type 1；松耦合 → Type 2
+P2. 若 C = 无可执行代码资产，则先看 D：正向-强 → Type 3/4；正向-弱 → Type 5；负向 → Type 6
+P3. 若 D = 正向-强，则再看 F：有结构化参考 → Type 3；无结构化参考 → Type 4
+P4. 若流程与约束并存，且流程仍构成主要任务完成路径，则主类型保持 Type 3/4，约束仅作为 secondary_tags 记录
+```
+
+### 具体判定规则
+
+#### Rule 1：代码优先
+只要 Skill 中存在被 Description 明确要求调用、运行或纳入任务完成流程的可执行代码资产，就优先进入 Type 1/2 的候选空间，而不是直接落入 Type 3–6。
+
+#### Rule 2：Type 1 与 Type 2 由 R 区分
+若 Description 将任务路径绑定到特定代码资产上，并明确规定顺序调用、输入输出依赖或固定步骤链，则判为 **Type 1**；若 Description 主要描述按需/条件调用模式，各脚本相对独立且可由 Agent 自主组合，则判为 **Type 2**。
+
+#### Rule 3：单脚本默认偏 Type 2
+若只有一个脚本，除非 Description 明确将其嵌入固定的顺序流程，否则默认偏向 **Type 2**。
+
+#### Rule 4：流程优先于约束
+在 `C=无可执行代码资产` 时，应先看 Description 是否提供“该怎么做”的正向任务路径。只要存在明确流程、步骤、框架或阶段式执行链，即便同时有较多禁令，主类型仍优先进入 **Type 3/4**；约束仅记录为副标签。
+
+#### Rule 5：Type 6 是“仅边界约束型”
+只有当 Description 缺少正向任务路径，且主要由禁止、限制和边界条件组成时，才判为 **Type 6**。换言之，Type 6 不是“带约束的流程型”，而是“仅靠约束定义边界的 Skill”。
+
+#### Rule 6：流程优先于原则
+若同时有原则性语言和可执行流程/框架，则按流程判为 **Type 3/4**，原则性内容只作为 `contains_principles` 记录，不直接判为 Type 5。
+
+---
+
+## 维度定义与作用
+
+| 维度 | 全称 | 定义 | 在框架中的作用 | 典型取值 |
+|------|------|------|----------------|----------|
+| **C** | Code 存在性 | Skill 中是否存在被 Description 明确要求调用、运行或纳入任务完成流程的可执行代码资产 | 主分类轴：先区分“有可执行代码资产”与“无可执行代码资产” | `有可执行代码资产` / `无可执行代码资产` |
+| **R** | Description–Code 耦合度 | Description 中的任务完成逻辑，对可执行代码资产的调用顺序、依赖关系和替代空间的绑定强度 | 主分类轴：在 `C=有可执行代码资产` 时区分 Type 1 与 Type 2 | `紧耦合` / `松耦合` / `不适用` |
+| **D** | Description 控制模式 | Description 对 Agent 行为的控制模式，是以明确流程进行正向引导、以宽泛原则进行弱引导，还是以禁令和边界进行负向约束 | 主分类轴：在 `C=无可执行代码资产` 时区分 Type 3/4、Type 5、Type 6 | `正向-强` / `正向-弱` / `负向` |
+| **F** | 参考素材形式 | Skill 中是否存在可供 Agent 参照的参考素材及其结构化程度 | 全局描述维度：在 `D=正向-强` 时区分 Type 3 与 Type 4，也可记录 Type 1/2 中的参考素材情况 | `有结构化参考` / `无结构化参考` / `规则主导` |
+| **S** | 数据结构化 | Skill 的中间数据、输入输出格式是否被显式定义或隐式约束 | 验证维度：检查 Description 中的格式承诺是否有模板、Schema 或示例支撑 | `显式结构化` / `隐式结构化` / `自由` / `未知` |
+| **A** | Agent 自主权 | Agent 在执行 Skill 时的决策空间与行为模式 | 验证维度：检查 Description 对 Agent 的角色设定是否与实际资源组织方式一致 | `执行者` / `协调者` / `创作者` / `守卫者` |
+
+### 各维度的操作化说明
+
+- **C 维度中的“可执行代码资产”**：仅指被 Description 明确要求调用、运行或纳入任务完成流程的脚本、命令、程序入口。仅供参考的代码块、输出样例、模板片段、JSON/YAML 示例不计入 `C`，而是作为 `F` 的证据。
+- **R 维度中的“耦合度”**：衡量的不是 Description 与代码的语义相似性，而是 Description 是否将任务流程绑定到特定代码资产的选择、调用顺序和输入输出依赖上。若 Description 明确规定代码调用链，且各步骤存在强数据依赖，则为 `紧耦合`；若 Description 仅将代码视为按需选择的能力集合，允许 Agent 自主组合，则为 `松耦合`。
+- **D 维度中的“正向流程/框架”**：指 Description 明确告诉 Agent “该怎么做”，例如出现步骤顺序、任务分解、输入输出传递、阶段式框架（如“收集信息 → 分析 → 输出”）。若文本主要告诉 Agent “不要怎么做”，且缺少正向任务路径，则倾向于 `D=负向`。
+- **F 维度中的“结构化参考”**：包括模板、Schema、JSON/YAML 示例、`templates/` 目录、`examples/` 目录、固定输出字段说明等。
+
+---
+
+## 六种类型定义
+
+### Type 1: 管道型 (Pipeline)
+
+| 维度 | 典型值 |
+|------|--------|
+| C | 有可执行代码资产 |
+| R | 紧耦合 |
+| D | 正向-强 |
+| A | 执行者 |
+
+**特征：** 包含可执行代码资产，且 Description 与这些代码资产呈**紧耦合关系**。Description 描述了脚本的顺序调用流程（Step 1 → Step 2 → Step 3），各步骤之间存在输入输出依赖，前一步的输出是后一步的输入。
+
+**Agent 角色：** 执行者——按照 Description 规定的顺序依次调用脚本，几乎没有自主决策空间。
+
+**识别信号：** “first...then...finally”、 “步骤1...步骤2”、多个脚本按顺序引用、前一步输出被后一步显式消费。
+
+---
+
+### Type 2: 工具箱型 (Toolkit)
+
+| 维度 | 典型值 |
+|------|--------|
+| C | 有可执行代码资产 |
+| R | 松耦合 |
+| D | 正向-强 |
+| S | 任意（不调节） |
+| A | 协调者 |
+
+**特征：** 包含可执行代码资产，但 Description 与这些代码资产呈**松耦合关系**。Description 描述的是按需/条件调用模式（“if...then use”、 “根据情况选择”），各脚本相对独立，Agent 根据任务需求自主选择和组合。
+
+**Agent 角色：** 协调者——理解各工具的能力后，自主决定调用哪些、以什么顺序调用。
+
+**识别信号：** “if/when/choose/select”、 “根据...选择”、 “based on the situation”。
+
+---
+
+### Type 3: 编排型 (Orchestrator)
+
+| 维度 | 典型值 |
+|------|--------|
+| C | 无可执行代码资产 |
+| D | 正向-强 |
+| F | 有结构化参考 |
+| S | 有 Schema / 有格式约定（期望） |
+| A | 协调者 |
+
+**特征：** 无可执行代码资产，Description 提供流程/框架级指导，**并附带结构化参考素材**——如代码块模板、JSON/YAML 示例、`templates/` 目录、`examples/` 目录等。Agent 需要“按流程 + 参照素材”来完成任务。
+
+**Agent 角色：** 协调者——理解流程后，参照结构化素材自主实现。
+
+**与 Type 4 的区别：** 有结构化参考素材可供查阅和套用，Agent 不需要从零构造输出格式。
+
+---
+
+### Type 4: 指导型 (Guide)
+
+| 维度 | 典型值 |
+|------|--------|
+| C | 无可执行代码资产 |
+| D | 正向-强 |
+| F | 无结构化参考 |
+| S | 自由（期望） |
+| A | 协调者 |
+
+**特征：** 无可执行代码资产，Description 提供流程/框架级指导，但**完全是纯文字描述**，没有附带模板、代码块或结构化数据文件。Agent 完全靠理解自然语言指令来执行。
+
+**Agent 角色：** 协调者——理解文字指令后自主实现，需要更多的推理和判断。
+
+**与 Type 3 的区别：** 没有可供参照的结构化素材，Agent 需要自己构造输出形式。
+
+---
+
+### Type 5: 原则指南型 (Principle Guide)
+
+| 维度 | 典型值 |
+|------|--------|
+| C | 无可执行代码资产 |
+| D | 正向-弱 |
+| F | 无结构化参考 |
+| S | 自由（期望） |
+| A | 创作者 |
+
+**特征：** 无可执行代码资产，Description 只提供**方向性、原则性指引**（“追求简洁”、 “embrace elegance”、 “设计哲学”），不给出具体步骤或流程。Agent 在宽泛的原则框架内自由发挥。
+
+**Agent 角色：** 创作者——在原则约束下自主决定做什么、怎么做。
+
+**识别信号：** “principle”、 “philosophy”、 “aesthetic”、 “原则”、 “美学”、 “追求”。
+
+---
+
+### Type 6: 约束规则型 (Constraint/Guard)
+
+| 维度 | 典型值 |
+|------|--------|
+| C | 无可执行代码资产 |
+| D | 负向 |
+| F | 规则主导 |
+| S | 自由（期望） |
+| A | 守卫者 |
+
+**特征：** 无可执行代码资产，Description 以**禁令和约束**为主（“NEVER”、 “DO NOT”、 “禁止”、 “不要”），内容通常较短且密集。其核心功能不是告诉 Agent 该做什么，而是限定不该做什么。
+
+**Agent 角色：** 守卫者——在正常行为之上叠加防护栏，确保不违反约束。
+
+**识别信号：** “NEVER”、 “MUST NOT”、 “DO NOT”、 “禁止”、 “不要”、 “严禁”，且约束密度高，同时缺少正向任务路径。
+
+---
+
+## 类型对比速查
+
+| 类型 | 有代码？ | 控制方式 | 有结构化素材？ | S 期望 | Agent 自主度 |
+|------|---------|---------|--------------|--------|-------------|
+| Type 1 管道型 | 有 | 正向-强 | 可有可无 | 有 Schema/格式约定 | 最低（执行者） |
+| Type 2 工具箱型 | 有 | 正向-强 | 可有可无 | 不调节 | 中（协调者） |
+| Type 3 编排型 | 无 | 正向-强 | **有** | 有 Schema/格式约定 | 中（协调者） |
+| Type 4 指导型 | 无 | 正向-强 | **无** | 自由 | 中（协调者） |
+| Type 5 原则指南型 | 无 | 正向-弱 | 无 | 自由 | 高（创作者） |
+| Type 6 约束规则型 | 无 | 负向 | 规则主导 | 自由 | 特殊（守卫者） |
+---
+
+## 混合型样本与副标签机制
+
+为保留复合特征，本框架采用 **“主类型 + 副标签（secondary_tags）”** 的表示方式。
+
+### 主类型
+
+每个 Skill 仍然只能落入一个主类型（Type 1–6），主类型由 `C/R/D/F` 决策轴给出。
+
+### 副标签
+
+当一个 Skill 同时呈现其他类型的显著特征时，不改变主类型，而是记录为副标签。推荐的副标签包括：
+
+- `contains_guard_rules`：包含明显禁令、边界或防护栏
+- `contains_principles`：包含原则性、哲学性或风格性语言
+- `contains_structured_reference`：包含模板、Schema、JSON/YAML、示例或固定输出格式
+- `contains_sequential_workflow`：包含明确顺序步骤或阶段式流程
+- `contains_conditional_tool_use`：包含条件式工具选择或按需调用
+- `desc_code_mismatch_candidate`：Description 与代码/资源边界可能不一致
+
+### 何时标记为混合型样本
+
+当满足以下任一条件时，可标记 `is_mixed = true`：
+
+1. 主类型之外的另一类特征信号数量不少于 2 个；
+2. 非主类型段落在 Description 中占比达到约四分之一；
+3. 不同段落稳定呈现不同类型特征，但整体仍可识别出一个主导类型。
+
+### 说明
+
+副标签用于**保留复杂性**，而不是推翻主类型。比如“有流程但同时有大量禁令”的 Skill，若流程仍构成主要任务完成路径，则主类型仍应为 Type 3 或 Type 4，只额外记录 `contains_guard_rules`。
+
+---
+
+## S / A 作为验证维度的使用方式
+
+在本框架中，`S/A` 作为 **description–artifact consistency** 的验证器，用于检查 Description 所宣称的能力边界、组织方式与 Skill 实际资源之间是否一致。
+
+### S：数据结构化验证器
+
+用于检查 Description 中对输入输出格式、模板或 Schema 的承诺，是否有实际资源支撑。
+
+- **Description 侧信号**：`JSON`、`YAML`、`schema`、`template`、`required fields`、`structured response`、固定输出字段说明
+- **资源侧信号**：模板文件、Schema 文件、结构化示例、parser / validator / serializer、固定键集合
+- **判定值**：`显式结构化` / `隐式结构化` / `自由` / `未知`
+- **典型不一致**：Description 要求固定 JSON 输出，但 Skill 中没有任何模板、Schema 或结构化示例；或 Skill 附带大量结构化素材，但 Description 完全未说明
+
+### A：Agent 自主权验证器
+
+用于检查 Description 赋予 Agent 的角色定位，是否与 Skill 资源的组织方式一致。
+
+- **Description 侧信号**：`must strictly follow`、`according to the steps`、`choose based on`、`pursue`、`avoid`、`never`
+- **资源侧信号**：固定 pipeline、多工具可选、纯原则性文本、纯 guardrail 型约束
+- **判定值**：`执行者` / `协调者` / `创作者` / `守卫者`
+- **典型不一致**：Description 只给原则、似乎允许自由发挥，但实际资源组织成了严格多阶段 pipeline；或 Description 强调严格执行，但提供的其实只是松散模板和开放式参考
+
+### 推荐输出格式
+
+```json
+{
+  "skill_name": "multi-stage-data-pipeline",
+  "skill_source": "github://example-org/example-repo/skills/multi-stage-data-pipeline",
+  "task_type": ["transformation", "analysis"],
+  "primary_type": "Type 1",
+  "primary_type_name": "Pipeline",
+  "secondary_tags": ["has_structured_references"],
+  "confidence": 0.93,
+  "dimension_assessment": {
+    "C": {
+      "value": "有可执行代码资产",
+      "judgement": "存在可执行代码资产，因此进入 Type 1/2 候选空间。"
+    },
+    "R": {
+      "value": "紧耦合",
+      "judgement": "description 将任务流程绑定到特定脚本的顺序调用和输入输出依赖上，因此判定为紧耦合。"
+    },
+    "D": {
+      "value": "正向-强",
+      "judgement": "存在明确、固定的正向执行流程。"
+    },
+    "F": {
+      "value": "有结构化参考",
+      "judgement": "该 skill 附带可供 agent 参照的结构化参考素材，但这不改变 Type 1/2 的主分类。"
+    },
+    "S": {
+      "value": "有Schema/格式约定",
+      "judgement": "存在明确的数据格式约定。"
+    },
+    "A": {
+      "value": "执行者",
+      "judgement": "agent 主要负责按固定流程执行。"
+    }
+  },
+  "reasoning_chain": {
+    "step_1_code_presence": {
+      "question": "是否存在可执行代码资产？",
+      "answer": "是"
+    },
+    "step_2_coupling_assessment": {
+      "question": "description 与 code 的耦合度如何？",
+      "answer": "紧耦合"
+    },
+    "step_3_reference_assessment": {
+      "question": "是否存在可供参照的参考资料？",
+      "answer": "是，且为结构化参考"
+    },
+    "step_4_type_selection": {
+      "selected_type": "Type 1",
+      "direct_reason": "该 skill 有可执行代码资产，且 description 与 code 呈紧耦合关系，因此判为 Type 1。"
+    }
+  },
+  "validation": {
+    "S_check": {
+      "desc_expected": "有Schema/格式约定",
+      "artifact_observed": "有Schema/格式约定",
+      "status": "match"
+    },
+    "A_check": {
+      "desc_expected": "执行者",
+      "artifact_observed": "执行者",
+      "status": "match"
+    }
+  },
+  "final_explanation": "该 skill 的主导特征是 description 将任务完成过程紧密绑定到一条固定的代码执行链上；虽然同时提供了结构化参考资料，但这只是辅助性特征，不改变其作为 Type 1 的主类型判断。"
+}
+```
+
+---
+
+## 置信度机制说明与计算方法
+
+在本框架中，`confidence` 表示**最终主类型判断链上各关键决策节点的证据强度加权结果**。它反映的是规则判定的可信度，而不是统计意义上的概率。
+
+### 基本思路
+
+先为参与主类型判断的关键维度赋予局部分数：
+
+- **1.0**：证据非常明确，几乎无歧义
+- **0.8**：证据较强，但存在少量模糊
+- **0.6**：有一定证据，但边界较明显
+- **0.4**：证据偏弱，仅能勉强支持
+- **0.2**：证据很弱，判断高度不确定
+
+其中：
+
+- `score_C`：C 维度证据强度
+- `score_R`：R 维度证据强度
+- `score_D`：D 维度证据强度
+- `score_F`：F 维度证据强度
+
+### 分类场景下的计算公式
+
+| 场景 | 公式 |
+|------|------|
+| Type 1 / Type 2 | `confidence = 0.4 × score_C + 0.6 × score_R` |
+| Type 3 / Type 4 | `confidence = 0.2 × score_C + 0.5 × score_D + 0.3 × score_F` |
+| Type 5 / Type 6 | `confidence = 0.2 × score_C + 0.8 × score_D` |
+
+### 说明
+
+- **Type 1 / Type 2**：由 `C + R` 决定，其中 `R` 是区分两类的主判据，因此权重更高。
+- **Type 3 / Type 4**：由 `C + D + F` 决定，其中 `D` 负责把样本送入 Type 3/4，`F` 负责最终区分二者。
+- **Type 5 / Type 6**：由 `C + D` 决定，其中 `D` 是区分“正向-弱”与“负向”的主判据。
+
+### 混合特征的置信度修正
+
+若一个 Skill 同时存在明显混合特征，可在基础分数上进行小幅扣减：
+
+- 存在显著 `secondary_tags` 混合特征：减 `0.05`
+- 判定过程中存在明显边界冲突：再减 `0.05`
+
+最终分数不低于 `0.30`。

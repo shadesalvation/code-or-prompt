@@ -1,0 +1,31 @@
+skill_id: "05_performing-supply-chain-attack-simulation"
+skill_source: "zzzexamples/05_performing-supply-chain-attack-simulation"
+
+task_code: "模拟并检测软件供应链攻击（拼写投毒、依赖混淆、哈希校验、CVE 扫描）"
+domain_hint: "supply-chain-security / package-registry-abuse"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "纯自然语言总览：供应链攻击类型、前置依赖、5 个检测维度与输出形式；无内联代码块"
+      approx_weight: "~7%"
+      role: "界定这个 skill 要解决什么问题，以及风险检测应覆盖哪些攻击面"
+    - part: "scripts/agent.py + references/api-reference.md 中可执行命令"
+      nature: "`agent.py`（约 221 行主脚本）+ `api-reference.md` 中可直接执行的 `pip install`、`curl`、`pip-audit`、`pip download --require-hashes`、`pypi-scan` 命令"
+      approx_weight: "~73%"
+      role: "承担实际执行能力：对包名做相似度检查、查询 PyPI 元数据、测试 dependency confusion、获取/比对哈希、运行 pip-audit 与元数据异常分析"
+    - part: "references/api-reference.md 中的结构化说明部分"
+      nature: "PyPI JSON 响应结构示例、Levenshtein 距离示例表、MITRE ATT&CK 映射、metadata anomaly 指标表、dependency confusion 输入 JSON 结构"
+      approx_weight: "~20%"
+      role: "为脚本输出和检测逻辑提供查阅型背景材料与判断参照"
+  desc_code_relationship: |
+    `SKILL.md` 只说明该 skill 应检测哪些供应链风险，并没有像部分其它 skill 那样显式把 Agent 指向 `scripts/agent.py`。
+    真正的执行能力主要集中在 `agent.py`，它把五类检测逻辑做成了可运行的 CLI 子命令。
+    `api-reference.md` 同时扮演两种角色：其中 CLI 命令属于可直接执行的 code，JSON/表格/映射关系则属于 reference。
+    因此这个 skill 更像是“轻说明 + 强脚本 + 混合型 reference”的结构。
+  implementation_mode: "Code 主导 + Description 轻量说明"
+
+review_flags:
+  - "SKILL.md 未显式写出调用 `scripts/agent.py` 的推荐命令，脚本与说明之间的连接较弱，需要Agent自行发现(插眼：脚本是否会被调用还需要交到具体运行时再看，目前无法判断)"
+  - "`api-reference.md` 是典型混合文件：命令块计入 code，JSON 示例与表格计入 reference"
+  - "`agent.py` 自实现了 Levenshtein 距离而不是依赖外部库；但 SKILL.md 前提中仍写有 `Levenshtein` 依赖，存在轻微不一致"

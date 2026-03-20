@@ -1,0 +1,30 @@
+skill_id: "18_track17"
+skill_source: "zzzexamples/18_track17"
+
+task_code: "跟踪包裹状态并汇总 17TRACK 物流更新"
+domain_hint: "parcel-tracking / shipping-status"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "自然语言操作手册：需求说明、SQLite 存储位置、环境变量、Quick start、webhook 两种接入方式、常见动作与 agent operating guidance；其中多段 bash 命令会被 Agent 原样执行，属于嵌入式可执行 code"
+      approx_weight: "~7%"
+      role: "定义 Agent 如何初始化、添加包裹、轮询同步、查看状态、处理 webhook，并明确优先使用 sync 而非 webhook"
+    - part: "scripts/track17.py"
+      nature: "大型 Python CLI（1587 行）：SQLite 存储、17TRACK API 调用、quota/stop/retrack/delete、事件入库、轮询同步、webhook ingest、inbox 处理、内置 HTTP webhook server、carrier 缓存与搜索"
+      approx_weight: "~88%"
+      role: "整个 skill 的真实执行核心；负责本地数据库、远程 API 交互、状态变更汇总与 webhook 接收流程"
+    - part: "README.md"
+      nature: "补充说明文档：skill 组成、数据存储位置、Clawdbot 配置方式、手动命令、webhook 配置与速率限制说明；以信息型说明为主，含少量可执行命令示例"
+      approx_weight: "~5%"
+      role: "为开发者/操作者补充部署与配置背景，帮助理解 token 配置、数据目录和 webhook 使用方式"
+  desc_code_relationship: |
+    SKILL.md 多次明确写出 `python3 {baseDir}/scripts/track17.py ...` 命令，Agent 可以按说明直接调用脚本完成 init、add、list、sync、status、webhook-server 等操作。
+    Description 主要负责操作策略与安全边界（如优先 sync、不要回显 token、添加后立刻 status 校验）；Code 负责全部业务实现。
+    README.md 进一步补充了 Clawdbot 配置和手动使用方式，但不是运行时必需入口。
+  implementation_mode: "Code 主导 + Description 操作编排"
+
+review_flags:
+  - "SKILL.md 与 README.md 中的命令块属于可执行 code，但其文本体量相对整个脚本很小，比例上仍主要体现为脚本主导"
+  - "脚本默认会在 workspace 下创建 SQLite 数据库与 inbox/processed/cache 目录，属于真实文件写入型 skill"
+  - "webhook-server 为长驻服务；若在实际使用中启动，应视为持续运行进程而非一次性命令（提供参考：某些skill需要长驻服务，如clawd-server）" 

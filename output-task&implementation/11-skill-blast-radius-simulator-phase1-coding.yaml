@@ -1,0 +1,31 @@
+skill_id: "11_skill-blast-radius-simulator"
+skill_source: "zzzexamples/11_skill-blast-radius-simulator"
+
+task_code: "模拟评估新 skill 的安装/启用风险（爆炸半径），高风险时要求显式确认"
+domain_hint: "skill-governance / risk-assessment"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "简洁自然语言：4 步工作流 + 2 个 bash 调用命令模板 + scope boundary + loopback 机制"
+      approx_weight: "~12%"
+      role: "告诉 Agent 何时使用、如何调用脚本（含完整命令行参数模板）、使用边界与回退规则"
+    - part: "scripts/"
+      nature: "blast_radius_sim.py（324 行完整 CLI）：正则匹配危险模式、计算风险评分、基线对比、输出报告"
+      approx_weight: "~72%"
+      role: "全部模拟逻辑的唯一实现——扫描 skill 文件、统计信号、计算得分、生成 JSON/表格报告"
+    - part: "references/"
+      nature: "simulation-workflow.md（27 行）：工作流步骤与 rollout 模式；risk-heuristics.md（36 行）：信号族定义、评分意图、风险等级、输出字段契约"
+      approx_weight: "~14%"
+      role: "为 Agent 补充模拟流程细节与风险启发式的含义说明"
+  desc_code_relationship: |
+    SKILL.md 在 "Simulate" 一节通过完整 bash 命令模板明确指示调用 blast_radius_sim.py，并给出所有关键参数（--skills-root, --skill, --ack-threshold, --baseline-json 等）。
+    Description 负责"何时用、怎么调"，Code 负责"所有模拟计算"。references/ 对风险启发式做了语义说明，但脚本内部已硬编码全部规则，references/ 更多面向人类理解。
+  implementation_mode: "Description 驱动 + Code 执行"
+
+review_flags:
+  - "references/ 中 risk-heuristics.md 含输出字段契约（Output Contract Highlights），介于 description 与 reference 之间"
+  - "agents/openai.yaml（界面元数据 5 行）未计入比例"
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"

@@ -1,0 +1,30 @@
+# ===== Open Coding Record =====
+skill_id: "26_rag-query"
+skill_source: "zzzexamples/26_rag-query"
+
+task_codes:
+  - code: "从项目 RAG 语料中检索决策、文档与模式"
+    evidence: |
+      description (PT): consulta corpus RAG; decisões, documentação, learnings, padrões.
+    domain_hint: "rag-retrieval"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "长文：查询约定、何时使用（葡语为主）"
+      approx_weight: "约 370+ 行"
+      role: "检索策略与输出格式"
+    - part: "scripts/（1 py）"
+      nature: "检索入口或封装"
+      approx_weight: "核心"
+      role: "执行向量/索引查询（视实现而定）"
+  desc_code_relationship: |
+    叙事与触发在 SKILL；具体检索可能在脚本或宿主索引服务。
+  overall_impression: "长 SKILL + 单脚本的 RAG 查询 Skill。"
+  confidence: medium
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions:
+  - "语料索引构建是否在仓库外，需结合脚本内容确认"

@@ -1,0 +1,33 @@
+# ===== Open Coding Record =====
+skill_id: "28_edge-strategy-reviewer"
+skill_source: "zzzexamples/28_edge-strategy-reviewer"
+
+task_codes:
+  - code: "评审边缘策略草稿并输出 PASS/REVISE/REJECT 等结论"
+    evidence: |
+      description: review strategy_drafts/*.yaml; plausibility, overfitting, sample size, execution realism; verdicts with confidence.
+    domain_hint: "strategy-qa"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "评审准则与输出格式"
+      approx_weight: "约 100+ 行"
+      role: "质量门禁说明"
+    - part: "scripts/（3 py）"
+      nature: "可能解析 YAML 或打分"
+      approx_weight: "中等"
+      role: "结构化评审辅助"
+    - part: "references/"
+      nature: "review_criteria 等"
+      approx_weight: "少量"
+      role: "标准细化"
+  desc_code_relationship: |
+    规则在 SKILL/references；若有脚本则负责读取 drafts 并生成报告。
+  overall_impression: "评审规范 + 多脚本的质检 Skill。"
+  confidence: medium
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

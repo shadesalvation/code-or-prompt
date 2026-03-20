@@ -1,0 +1,32 @@
+# ===== Open Coding Record =====
+skill_id: "12_segment-image"
+skill_source: "zzzexamples/12_segment-image"
+
+task_codes:
+  - code: "对图像进行分割并输出对象掩码文件"
+    evidence: |
+      description: segment, masks, identify objects; Gemini vision.
+    domain_hint: "vision-segmentation"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "短文：用法、bun 命令、参数、上下文纪律"
+      approx_weight: "约 50 行"
+      role: "调用 CLI 的入口说明"
+    - part: "scripts/segment.ts"
+      nature: "TypeScript（bun run）"
+      approx_weight: "核心执行"
+      role: "调用 Gemini 完成分割与写文件"
+  desc_code_relationship: |
+    SKILL 几乎完全围绕 `bun run ...segment.ts`；Description 与单脚本强绑定。
+  instruction_source: |
+    命令行与选项说明；模型名在 SKILL 中注明。
+  overall_impression: "单脚本 CLI + 短 SKILL 的计算机视觉工具 Skill。"
+  evidence: "bun run segment.ts; gemini-3-flash-preview"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

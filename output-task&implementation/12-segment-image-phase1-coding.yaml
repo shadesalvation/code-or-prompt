@@ -1,0 +1,29 @@
+skill_id: "12_segment-image"
+skill_source: "zzzexamples/12_segment-image"
+
+task_code: "对图像进行 AI 分割/物体识别并生成掩码（mask）文件"
+domain_hint: "vision / image-segmentation"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "自然语言：使用场景、Usage 中 bun 调用命令、Options、Examples 内联 bash、Context Discipline（不把 mask 读回上下文）、模型说明与外部文档指针"
+      approx_weight: "~41%"
+      role: "规定何时用、如何调用 segment.ts、参数与输出约定；明确禁止将生成 mask 读入上下文"
+    - part: "scripts/segment.ts"
+      nature: "TypeScript/Bun 入口（74 行）：解析参数、加载图像、调用 Gemini 分割、打印物体列表与 bbox、可选写出 PNG mask"
+      approx_weight: "~59%"
+      role: "可执行管线——API 调用与文件落地；依赖插件根目录下的 utils.ts / shared.ts（非本目录文件）"
+  desc_code_relationship: |
+    SKILL.md 在 Usage 与 Examples 中明确写出 `bun run .../scripts/segment.ts` 及 `--prompt` / `--output`，属于对可执行文件的直接指令式引用。
+    Description 负责使用边界与后处理约束（如不把 mask 读回上下文）；segment.ts 负责分割推理与可选落盘。
+    脚本通过动态 import 依赖 gemskills 插件内的 resolve-root、utils、shared，本仓库仅保留薄封装入口。
+  implementation_mode: "Description 驱动 + Code 执行"
+
+review_flags:
+  - "本 skill 目录无 references/ 文件夹（无独立结构化参考资料文件）"
+  - "segment.ts 依赖仓库外的 gemskills 插件文件（utils.ts、shared.ts、resolve-root.ts），单独拷贝本 skill 可能无法运行"
+  - "SKILL.md 末尾指向 ask-gemini / 外部 gemskills PR，属跨 skill 文档指针，未单独计为 reference 文件"
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"

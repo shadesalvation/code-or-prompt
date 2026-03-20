@@ -1,0 +1,29 @@
+skill_id: "25_cosmic-database"
+skill_source: "zzzexamples/25_cosmic-database"
+
+task_code: "下载并使用 COSMIC 癌症突变数据库文件"
+domain_hint: "bioinformatics / cancer-genomics"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "大篇幅领域说明：COSMIC 数据类型、常见用途、认证前提、下载示例、读取示例与排障；其中 `uv pip install` 与 `python scripts/download_cosmic.py ...` 会被直接执行"
+      approx_weight: "~60%"
+      role: "解释有哪些数据、何时下载、下载后如何读取，是 Agent 选择文件类型与分析路径的主要依据"
+    - part: "scripts/ + 可执行命令块"
+      nature: "`download_cosmic.py`（真实下载 CLI 与 helper 函数）+ SKILL.md 中直接可执行的命令"
+      approx_weight: "~20%"
+      role: "完成认证下载、常见文件路径映射、命令行参数解析与本地文件写入"
+    - part: "references/"
+      nature: "`cosmic_data_reference.md`：结构化数据目录、字段说明、常见文件路径、版本与引用信息"
+      approx_weight: "~20%"
+      role: "作为数据目录速查表，帮助 Agent 确认应请求哪类 COSMIC 文件"
+  desc_code_relationship: |
+    虽然 `download_cosmic.py` 提供了实际下载能力，但该 skill 的主要价值在于让 Agent 理解 COSMIC 里有哪些资源、适合什么研究场景、常用文件路径是什么。
+    Description 主导数据选择与使用方式，Code 负责真正下载，Reference 则补足字段与文件目录速查。
+    因此执行上离不开脚本，但认知重心更偏 Description/Reference。
+  implementation_mode: "Description 主导 + Code 执行"
+
+review_flags:
+  - "SKILL.md 中大量 Python 片段用于示教下载后分析，已按 description/reference 语境处理，未计入 code"
+  - "真实可执行核心主要集中在 `download_cosmic.py` 与少量 CLI 命令"

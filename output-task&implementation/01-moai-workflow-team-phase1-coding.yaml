@@ -1,0 +1,22 @@
+skill_id: "01_moai-workflow-team"
+skill_source: "zzzexamples/01_moai-workflow-team"
+
+task_code: "MoAI Agent Teams 工作流：建队、任务分解、队友派发、协调与优雅关闭"
+domain_hint: "multi-agent-workflow / team-orchestration"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "单文件约 200+ 行：前置条件、模式选择、团队生命周期五阶段、文件归属策略表、团队模式参考与错误恢复；含 TeamCreate/Task/SendMessage 等工具调用形态说明（非终端可执行脚本）"
+      approx_weight: "~100%"
+      role: "定义 Agent 作为 Team Lead 何时切团队模式、如何分解任务、如何 spawn 队友、协调消息与 shutdown 的完整协议"
+  desc_code_relationship: |
+    本 skill 无 `scripts/` 或独立可执行程序；能力完全由 SKILL.md 中的流程规则与工具调用约定承载。
+    文中代码块多为「工具/API 形态说明」与编排模板，按方法论计入 description，而非可被 Bash 原样执行的 code。
+    实际执行依赖宿主环境（Claude Code / Agent Teams）是否提供对应工具，而非本目录内脚本。
+  implementation_mode: "纯 Description 驱动（无独立可执行代码）"
+
+review_flags:
+  - "无 references/、无 scripts/；比例仅含 SKILL.md"
+  - "frontmatter 中 progressive_disclosure/triggers 等元数据未单独计行"
+  - "若需将 TeamCreate/Task 伪代码单独归类，可视为 reference 型结构化说明，本稿按 description 一并计入"

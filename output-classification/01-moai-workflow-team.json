@@ -1,0 +1,71 @@
+{
+  "skill_name": "moai-workflow-team",
+  "skill_source": "zzzexamples/01_moai-workflow-team",
+  "task_type": ["orchestration", "team-coordination"],
+  "primary_type": "Type 4",
+  "primary_type_name": "Guide",
+  "secondary_tags": ["contains_guard_rules", "contains_sequential_workflow", "contains_structured_reference", "contains_conditional_tool_use"],
+  "confidence": 0.82,
+  "is_mixed": true,
+  "dimension_assessment": {
+    "C": {
+      "value": "无可执行代码资产",
+      "judgement": "Skill 目录下只有 SKILL.md，没有脚本、CLI 或可执行程序。Description 中出现的代码块（TeamCreate、Task、SendMessage、TaskCreate 等）是平台内置工具的调用示例，不是 Skill 自带的可执行代码资产。这些工具由 Claude Code 平台提供（见 allowed-tools 声明），不属于 C 维度中'被 Skill 明确要求调用的可执行代码资产'。"
+    },
+    "R": {
+      "value": "不适用",
+      "judgement": "C=无可执行代码资产，R 维度不参与判定。"
+    },
+    "D": {
+      "value": "正向-强",
+      "judgement": "Description 提供了明确的五阶段工作流（Team Creation → Task Decomposition → Teammate Spawning → Coordination → Shutdown），每个阶段有具体的步骤和规则。Mode Selection 段提供了完整的决策流程。属于强正向引导。"
+    },
+    "F": {
+      "value": "无结构化参考",
+      "judgement": "Description 中的代码块是工具调用示例（如 TeamCreate、Task、SendMessage 的参数示例），而非 Agent 需要填充或套用的模板/Schema。文件所有权表是按项目类型分类的参考规则，但属于规则性内容而非结构化输出模板。Skill 不包含 templates/ 目录、Schema 文件或输出格式定义。Agent 的实际输出（团队协调结果）没有预定义格式。"
+    },
+    "S": {
+      "value": "隐式结构化",
+      "judgement": "工具调用有固定参数格式（TeamCreate、SendMessage 等），但这些是平台工具自身的约束，不是 Skill 显式定义的 Schema。团队命名规范（moai-{workflow}-{timestamp}）提供了隐式的结构化约定。"
+    },
+    "A": {
+      "value": "协调者",
+      "judgement": "Agent 扮演 Team Lead 角色，需要做大量自主决策：判断 team/solo 模式、分析项目复杂度、分解任务、分配文件所有权、选择角色和模型、协调 teammate 之间的通信、解决冲突、决定何时 shutdown。决策空间很大。"
+    }
+  },
+  "reasoning_chain": {
+    "step_1_code_presence": {
+      "question": "是否存在可执行代码资产？",
+      "answer": "否。Skill 目录下只有 SKILL.md。代码块中的 TeamCreate、Task、SendMessage 等是平台内置工具，不是 Skill 自带的可执行代码。"
+    },
+    "step_2_control_mode": {
+      "question": "D 维度：Description 的控制模式？",
+      "answer": "正向-强。五阶段工作流（创建→分解→生成→协调→关闭），每阶段有明确步骤和规则。"
+    },
+    "step_3_reference_material": {
+      "question": "F 维度：是否有结构化参考素材？",
+      "answer": "无。代码块是工具调用示例而非填充模板，文件所有权表是规则而非输出 Schema，没有 templates/ 或 examples/ 目录。"
+    },
+    "step_4_type_selection": {
+      "selected_type": "Type 4",
+      "direct_reason": "C=无可执行代码资产 → D=正向-强 → F=无结构化参考 → Type 4 (Guide)。"
+    }
+  },
+  "validation": {
+    "S_check": {
+      "desc_expected": "隐式结构化",
+      "artifact_observed": "隐式结构化",
+      "status": "match"
+    },
+    "A_check": {
+      "desc_expected": "协调者",
+      "artifact_observed": "协调者",
+      "status": "match"
+    }
+  },
+  "mixed_analysis": {
+    "is_mixed": true,
+    "reason": "该 Skill 同时包含：(1) 五阶段顺序工作流 (contains_sequential_workflow)；(2) 大量规则和禁令如文件所有权规则、delegate mode 限制 (contains_guard_rules)；(3) 工具调用示例和文件所有权表 (contains_structured_reference)；(4) Mode Selection 中的条件式工具选择 (contains_conditional_tool_use)。非主类型特征段落占 Description 的 50% 以上，但核心仍是一个纯文字描述的流程指导型 Skill。"
+  },
+  "final_explanation": "该 skill 没有自带的可执行代码资产，纯靠自然语言描述一个五阶段团队协调工作流来引导 Agent。虽然 Description 中有工具调用示例（TeamCreate、SendMessage 等），但这些是平台内置工具的用法说明，不是 Skill 自带的脚本。Description 也没有提供 Agent 需要填充的输出模板或 Schema。因此判定为 Type 4 (Guide)——纯文字流程指导型。该 Skill 混合特征非常显著（标记为 is_mixed=true），同时包含顺序工作流、大量规则约束、结构化参考表和条件式工具选择。"
+}

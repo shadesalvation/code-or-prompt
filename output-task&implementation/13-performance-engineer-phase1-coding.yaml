@@ -1,0 +1,29 @@
+skill_id: "13_performance-engineer"
+skill_source: "zzzexamples/13_performance-engineer"
+
+task_code: "诊断并优化 Web 应用性能（Core Web Vitals、后端/数据库、可观测性、压测、SLO）"
+domain_hint: "web-performance / site-reliability"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "角色设定 + 5 大领域知识体系（CWV、后端优化、OpenTelemetry、压测、SLO/Error Budget）+ 执行协议（含 Lighthouse bash 命令）"
+      approx_weight: "~80%"
+      role: "定义 Agent 角色（Principal Performance Architect）、知识框架与决策依据；执行协议指示调用 lighthouse_check.py"
+    - part: "scripts/"
+      nature: "lighthouse_check.py（13 行）和 lighthouse_check.js（7 行）：均为占位 stub，硬编码输出假分数，无实际 Lighthouse 调用"
+      approx_weight: "~20%"
+      role: "名义上的性能审计入口；当前为 mock 实现，不具备真实扫描能力"
+  desc_code_relationship: |
+    SKILL.md 在 "Execution Protocol" 中通过 bash 命令明确引用 lighthouse_check.py。
+    但脚本为硬编码 stub（直接 print 固定分数），不实际调用 Lighthouse。
+    Agent 的全部性能优化能力来源于 SKILL.md 中 5 大知识模块的自然语言描述，脚本仅作象征性存在。
+  implementation_mode: "纯 Description 驱动（Code 为 stub）"
+
+review_flags:
+  - "scripts/ 中两个文件均为 mock stub，无实际功能——需确认是否为开发中占位或仅演示"
+  - "lighthouse_check.js 未被 SKILL.md 引用，仅 .py 版本被引用"
+  - "无 references/ 目录"
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"

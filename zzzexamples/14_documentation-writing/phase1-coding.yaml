@@ -1,0 +1,36 @@
+# ===== Open Coding Record =====
+skill_id: "14_documentation-writing"
+skill_source: "zzzexamples/14_documentation-writing"
+
+task_codes:
+  - code: "编写符合项目规范的软件文档"
+    evidence: |
+      description: Eight Rules, Diataxis, README/API/docs/tutorials; enforces docs/ location and runnable examples.
+    domain_hint: "technical-writing"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "长文 + frontmatter（auto_activates 等）"
+      approx_weight: "约 200+ 行"
+      role: "写作规范与结构"
+    - part: "scripts/（多 Python）"
+      nature: "自动化或校验脚本"
+      approx_weight: "py=12"
+      role: "可能用于链接检查、模板生成等"
+    - part: "reference.md / github_pages/"
+      nature: "参考与示例"
+      approx_weight: "若干"
+      role: "范例与模板"
+  desc_code_relationship: |
+    核心是可读规范与流程；大量脚本可能用于自动化质量门禁，需与 SKILL 交叉引用。
+  instruction_source: |
+    SKILL 规则 + Diataxis 引用；脚本执行具体检查任务。
+  overall_impression: "规范长文 + 多脚本支撑的文档工程 Skill。"
+  confidence: medium
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions:
+  - "各 Python 脚本与 SKILL 的对应关系可进一步逐文件核对"

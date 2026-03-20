@@ -1,0 +1,36 @@
+# ===== Open Coding Record =====
+skill_id: "10_wecom-automation"
+skill_source: "zzzexamples/10_wecom-automation"
+
+task_codes:
+  - code: "实现企业微信个人账号的自动化消息与知识库交互"
+    evidence: |
+      description: Wechaty, message receive, auto accept friends, KB Q&A, human-in-the-loop.
+    domain_hint: "wechat-enterprise-automation"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "超长中文/英文混合说明：流程、配置、故障"
+      approx_weight: "约 620+ 行，绝对主导"
+      role: "完整机器人行为手册"
+    - part: "shell 脚本"
+      nature: "1 sh"
+      approx_weight: "小"
+      role: "启动或部署辅助"
+    - part: "knowledge/ 等 md"
+      nature: "样例或知识"
+      approx_weight: "少量"
+      role: "补充话术或示例"
+  desc_code_relationship: |
+    核心逻辑在运行时与 Wechaty/插件；SKILL 提供配置与对话策略；几乎无本仓库内大型业务代码。
+  instruction_source: |
+    SKILL 超长分节；Exec 与 mcporter 在 allowed-tools 中。
+  overall_impression: "极端偏 Description 的运维/自动化手册型 Skill。"
+  evidence: "628 lines SKILL; Wechaty"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

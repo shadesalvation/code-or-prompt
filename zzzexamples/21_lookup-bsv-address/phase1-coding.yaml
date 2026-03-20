@@ -1,0 +1,29 @@
+# ===== Open Coding Record =====
+skill_id: "21_lookup-bsv-address"
+skill_source: "zzzexamples/21_lookup-bsv-address"
+
+task_codes:
+  - code: "查询 BSV 地址的余额、UTXO 与历史信息"
+    evidence: |
+      description: WhatsOnChain API; lookup address, balance, UTXOs, history.
+    domain_hint: "blockchain-bsv"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "短文 + bun/ts 调用说明"
+      approx_weight: "约 40+ 行"
+      role: "CLI 用法"
+    - part: "scripts/（2 ts）"
+      nature: "TypeScript（bun）"
+      approx_weight: "核心"
+      role: "调用 API 并格式化输出"
+  desc_code_relationship: |
+    几乎无业务叙事，唯脚本与用法；Description 与 TypeScript 强绑定。
+  overall_impression: "双 TS 脚本 + 短 SKILL 的 API 封装 Skill。"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

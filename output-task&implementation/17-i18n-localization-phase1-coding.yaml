@@ -1,0 +1,26 @@
+skill_id: "17_i18n-localization"
+skill_source: "zzzexamples/17_i18n-localization"
+
+task_code: "检查并改进项目的国际化/本地化实现（i18n/L10n）"
+domain_hint: "i18n / localization"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "葡萄牙语自然语言指南：i18n/L10n 概念、适用场景、React/Next/Python 实现模式、locale 目录结构、最佳实践、常见问题、RTL 支持、发布前 checklist；仅 `python scripts/i18n_checker.py <path>` 这一调用指令属于可执行 code，其余代码块均为示教"
+      approx_weight: "~39%"
+      role: "为 Agent 提供国际化方法论、实现模式与审查清单，并明确给出 i18n_checker.py 的调用入口"
+    - part: "scripts/i18n_checker.py"
+      nature: "Python 审计脚本（242 行）：扫描 locale 文件、比较多语言 key 完整性、检测 React/Vue/Python 中可能的 hardcoded strings、输出审计结果并以退出码标记通过/失败"
+      approx_weight: "~61%"
+      role: "提供真实可执行的 i18n 自动检查能力，覆盖「缺失翻译」与「硬编码字符串」两类问题"
+  desc_code_relationship: |
+    SKILL.md 的主体是 i18n 方法指南，本身可以支持 Agent 回答“该怎么做国际化、RTL、locale 管理”这类问题。
+    同时，它在最后明确引用 `scripts/i18n_checker.py` 作为检查工具，这不是示教代码，而是可被 Agent 原样执行的审计命令。
+    因此 Description 负责提供原则、模式和清单，Code 负责把其中一部分规则转成自动化检查。
+  implementation_mode: "Description 主导 + Code 辅助审计"
+
+review_flags:
+  - "SKILL.md 中 React / Next.js / Python / CSS 代码块均为示教性质，不计入 code 比例"(这个是开放性编码的规则，示教性质的code不计入code比例)
+  - "allowed-tools 写的是 `Read, Glob, Grep`，但当前环境规则更偏向使用 `rg` 而非 `grep`"(skill本身缺陷)
+  - "脚本只覆盖 locale 完整性与硬编码字符串检测，未自动检查 RTL、Intl 日期/数字格式、ICU pluralization 等 SKILL.md 中提到的其他要求"(这个算是skill本身的缺陷)

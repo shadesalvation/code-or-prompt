@@ -1,0 +1,35 @@
+# ===== Open Coding Record =====
+skill_id: "15_senior-architect"
+skill_source: "zzzexamples/15_senior-architect"
+
+task_codes:
+  - code: "产出可落地的系统架构方案与技术决策"
+    evidence: |
+      description: scalable systems, React/Next/Node/GraphQL/Postgres, diagrams, trade-offs, integration patterns.
+    domain_hint: "software-architecture"
+    confidence: high
+
+implementation_codes:
+  components:
+    - part: "SKILL.md"
+      nature: "工具包式长文 + 概述"
+      approx_weight: "约 200+ 行"
+      role: "架构任务入口与工具链说明"
+    - part: "scripts/（3 py）"
+      nature: "辅助生成或分析"
+      approx_weight: "中等"
+      role: "图表或依赖分析等自动化"
+    - part: "references/"
+      nature: "架构模式、技术决策指南、工作流"
+      approx_weight: "多 md"
+      role: "领域知识与模板"
+  desc_code_relationship: |
+    Description 定义能力范围；references 提供素材；脚本加速重复性产出。
+  instruction_source: |
+    SKILL + references 分层阅读；脚本按任务选用。
+  overall_impression: "参考库 + 脚本的架构咨询型 Skill。"
+  confidence: high
+
+coder_id: "ai_coder"
+coding_date: "2026-03-19"
+open_questions: []

@@ -1,0 +1,31 @@
+skill_id: "02_audio-transcriber"
+skill_source: "zzzexamples/02_audio-transcriber"
+
+task_code: "音频转写为 Markdown，并可选 LLM 生成纪要/摘要"
+domain_hint: "speech-to-text / meeting-notes"
+
+implementation:
+  components:
+    - part: "SKILL.md（纯自然语言部分）"
+      nature: "触发条件、工作流目标说明、错误处理表、示例场景解说、输出解释等自然语言内容"
+      approx_weight: "~16%"
+      role: "规定何时触发 skill、用户交互顺序、何时进入 LLM 后处理，以及最终产物应长什么样"
+    - part: "scripts/ + examples/ + SKILL.md 中可直接执行的命令块"
+      nature: "`scripts/transcribe.py`（453 行主程序）+ `scripts/install-requirements.sh`（170 行）+ `examples/basic-transcription.sh`（208 行）+ SKILL.md 中大量 bash 检测/安装/处理命令"
+      approx_weight: "~50%"
+      role: "承担真正执行层：依赖检测与安装、Whisper/Faster-Whisper 转写、文件校验、基础 Markdown 落盘，以及示例级 shell 工作流"
+    - part: "references/ + README.md + CHANGELOG.md + SKILL.md 中示教型代码"
+      nature: "`references/tools-comparison.md`、`README.md`、`CHANGELOG.md`，以及 SKILL.md 中用于说明 meeting-minutes/LLM 处理的示教型 Python 代码与模板"
+      approx_weight: "~34%"
+      role: "提供引擎选型、安装说明、版本演进与教学性实现思路，帮助 Agent 做解释和方案选择"
+  desc_code_relationship: |
+    `02_audio-transcriber` 是一个明显的“工作流说明 + 可执行脚本”混合 skill。
+    SKILL.md 自身包含大量会被 Agent 原样执行的 bash 代码块，例如引擎探测、依赖安装、文件校验、ffmpeg 转换、结果摘要输出；这些部分应计入 code，而不是整体算作 description。
+    同时，SKILL.md 也嵌入了不少教学性的 Python 伪实现，例如 `generate_meeting_minutes()`、`generate_summary()`、`process_with_llm()` 等，这些代码主要用于说明实现思路，按 reference 处理更合适。
+    真正可运行的核心逻辑集中在 `scripts/transcribe.py`、`install-requirements.sh` 和 `examples/basic-transcription.sh`；README 与 `tools-comparison.md` 则承担选型与安装参考。
+  implementation_mode: "Description 主导 + Code 执行"
+
+review_flags:
+  - "将 SKILL.md 中可直接执行的 bash 记入 code，将示教型 Python 模板记入 reference"
+  - "`evals/evals.json` 与 `evals/trigger-eval.json` 未计入三类比例"
+  - "该 skill 与 `30_audio-transcriber` 为高度同源版本，02 更像前序/并行变体而非完全独立设计"

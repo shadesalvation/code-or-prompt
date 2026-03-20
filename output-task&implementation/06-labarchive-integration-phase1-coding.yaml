@@ -1,0 +1,28 @@
+skill_id: "06_labarchive-integration"
+skill_source: "zzzexamples/06_labarchive-integration"
+
+task_code: "通过 LabArchives REST API 管理电子实验记录本、条目与集成"
+domain_hint: "eln-integration / lab-automation"
+
+implementation:
+  components:
+    - part: "SKILL.md"
+      nature: "概述、使用场景、核心能力分节；含 `python3 scripts/setup_config.py` 等可执行命令与示教型 Python（labarchivespy 示例）"
+      approx_weight: "~35%"
+      role: "总览与主路径：认证配置→用户/笔记本/条目等能力入口，并指向 references 与 scripts"
+    - part: "scripts/"
+      nature: "`setup_config.py`、`entry_operations.py`、`notebook_operations.py` 共约 620 行可执行 Python"
+      approx_weight: "~38%"
+      role: "封装配置生成与 API 侧常见操作，是实际集成的执行层"
+    - part: "references/"
+      nature: "`api_reference.md`、`authentication_guide.md`、`integrations.md` 共约 840+ 行结构化说明"
+      approx_weight: "~27%"
+      role: "端点、认证细节与第三方集成说明，供查阅与排障"
+  desc_code_relationship: |
+    SKILL.md 明确将配置初始化指向 `setup_config.py`，并将深度说明分流到 references/。
+    脚本承担真实 HTTP/API 调用路径；SKILL 中的第三方库示例多为示教，Agent 以脚本与参考文档为准实施。
+  implementation_mode: "Description 主导 + Code 执行"
+
+review_flags:
+  - "SKILL.md 内嵌 Python 示例若仅为示教，在比例上已与叙述合并估算"
+  - "依赖企业 API 凭证与区域 endpoint，运行时环境不在 skill 内"

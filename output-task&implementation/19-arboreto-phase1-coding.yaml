@@ -1,0 +1,32 @@
+skill_id: "19_arboreto"
+skill_source: "zzzexamples/19_arboreto"
+
+task_code: "从基因表达数据推断基因调控网络（GRN）"
+domain_hint: "bioinformatics / gene-regulatory-network"
+
+implementation:
+  components:
+    - part: "SKILL.md（纯自然语言部分）"
+      nature: "Overview、Core Capabilities 导航、输出解释、pySCENIC 集成说明、排障与可复现性建议"
+      approx_weight: "~13%"
+      role: "告知何时使用 Arboreto、应选哪个算法、结果如何解读，并把详细内容分流到 references/ 和 scripts/"
+    - part: "scripts/basic_grn_inference.py + 可执行命令块"
+      nature: "`basic_grn_inference.py`（98 行真实 CLI 脚本）+ SKILL.md 与 references/ 中少量可直接执行的安装/运行/Dask 部署命令"
+      approx_weight: "~14%"
+      role: "提供标准化 GRN 推断入口：读取表达矩阵 → 可选 TF 过滤 → 运行 GRNBoost2 → 导出网络"
+    - part: "references/ + SKILL.md 示教代码"
+      nature: "3 份知识 Markdown（basic_inference / algorithms / distributed_computing 共 401 行）+ SKILL.md 内嵌的约 76 行 Python API 演示代码；涵盖输入格式、算法对比、Dask 分布式配置与多种分析模式"
+      approx_weight: "~73%"
+      role: "构成主要知识库体量：算法原理与参数、输入/输出规范、分布式设置与性能调优"
+  desc_code_relationship: |
+    SKILL.md 在 "Core Capabilities → 1. Basic GRN Inference" 中明确把标准执行路径指向 `scripts/basic_grn_inference.py`，
+    并以 `python scripts/basic_grn_inference.py expression_data.tsv output_network.tsv --tf-file tfs.txt --seed 777` 作为推荐运行方式。
+    但该 skill 的真正体量来自 references/ 与 SKILL.md 中的大量示教型 Python 片段（API 用法、多种分析模式、分布式部署），
+    这些代码展示了"如何使用 Arboreto"，不是 Agent 直接执行的目标，而是 Agent 向用户解释或生成定制脚本时的知识来源。
+    因此：Description 负责导航与触发，Code 负责标准执行，Reference 提供主要专业知识与使用范式。
+  implementation_mode: "Reference 主导 + Code 执行 + Description 轻量导航"
+
+review_flags:
+  - "SKILL.md 中约 76 行 Python 片段为示教性质，已拆分到 reference 比例而非 description 或 code"
+  - "references/distributed_computing.md 中 `dask-scheduler`/`dask-worker` 命令属可执行 bash，已计入 code（约 5 行）"
+  - "总行数按文件原始行数统计（含代码栏杆与空行），比例为近似值"
